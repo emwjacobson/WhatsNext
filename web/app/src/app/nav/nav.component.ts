@@ -11,7 +11,8 @@ export class NavComponent implements OnInit {
   title: String = environment.title;
   pages: any[] = [
     { title: "Home", link: "/" },
-    { title: "Test", link: "/test" }
+    { title: "Classes", link: "/classes" },
+    { title: "Work", link: "/work" }
   ]
 
   constructor() { }
