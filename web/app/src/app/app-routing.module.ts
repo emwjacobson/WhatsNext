@@ -1,12 +1,12 @@
-import { NONE_TYPE } from '@angular/compiler';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ClassesComponent } from './classes/classes.component';
 import { HomeComponent } from './home/home.component';
-import { NavComponent } from './nav/nav.component';
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
-  // { path: "", component: ClassesComponent },
+  { path: "classes", component: ClassesComponent },
+  { path: "classes/:class_name", component: ClassesComponent },
   { path: "**", redirectTo: "" }
 ];
 

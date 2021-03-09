@@ -1,0 +1,30 @@
+<section>
+  <div class="container">
+    <div class="row justify-content-md-center">
+
+      <div class="col-md-10">
+        <div class="card text-center">
+          <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+              <li class="nav-item" *ngFor="let class of getClasses()">
+                <a class="nav-link"
+                    routerLink="/classes/{{ class.name }}"
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact: true}">{{ class.name }}</a>
+              </li>
+            </ul>
+          </div>
+          <div class="card-body" *ngIf="getSelectedClass(); else noClassSelected">
+            Class selected: {{ getSelectedClass()?.name }}
+          </div>
+          <ng-template #noClassSelected>
+            <div class="card-body">
+              Test
+            </div>
+          </ng-template>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
