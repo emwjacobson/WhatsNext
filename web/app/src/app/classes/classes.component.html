@@ -1,30 +1,78 @@
 <section>
   <div class="container">
-    <div class="row justify-content-md-center">
 
-      <div class="col-md-10">
-        <div class="card text-center">
+    <div class="row">
+
+      <div class="col-md-3">
+        <form (ngSubmit)="submitAddClass()" [formGroup]="add_class_form">
+          <div class="mb-3">
+            <label for="class-name" class="form-label">Class Name</label>
+            <input type="text" class="form-control" id="class-name" formControlName="name">
+          </div>
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">Add</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="col-md-9">
+        <div class="card">
           <div class="card-header">
-            <ul class="nav nav-tabs card-header-tabs">
+            <ul class="nav nav-pills nav-fill card-header-pills flex-column flex-md-row">
               <li class="nav-item" *ngFor="let class of getClasses()">
-                <a class="nav-link"
-                    routerLink="/classes/{{ class.name }}"
+                <a class="nav-link flex-md-fill text-md-center"
+                    routerLink="/classes/{{ class.getName() }}"
                     routerLinkActive="active"
-                    [routerLinkActiveOptions]="{exact: true}">{{ class.name }}</a>
+                    [routerLinkActiveOptions]="{exact: true}">{{ class.getName() }}</a>
               </li>
             </ul>
           </div>
           <div class="card-body" *ngIf="getSelectedClass(); else noClassSelected">
-            Class selected: {{ getSelectedClass()?.name }}
+            <div class="row">
+              <div class="col-md-2 text-end">
+                Class selected:
+              </div>
+              <div class="col-md-10">
+                {{ getSelectedClass()?.getName() }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 text-end">
+                Course Info:
+              </div>
+              <div class="col-md-10" id="class-info" (dblclick)="editInfo()" style="white-space: pre">{{ getSelectedClass()?.getInfo() || "No info available." }}</div>
+            </div>
+            <div class="text-end">
+              <button type="button" class="btn btn-outline-danger" (click)="deleteClass(getSelectedClass()?.getId())">Delete Course</button>
+            </div>
           </div>
           <ng-template #noClassSelected>
             <div class="card-body">
-              Test
+              <p class="card-text">
+                Select a class to get more detailed information.
+              </p>
             </div>
           </ng-template>
         </div>
       </div>
-
     </div>
+
   </div>
 </section>
+
+<div class="modal fade" id="editInfoModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Course Info</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control" style="height: 300px" id="edit-textarea">{{ getSelectedClass()?.getInfo() }}</textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="submitEditCourseInfo()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

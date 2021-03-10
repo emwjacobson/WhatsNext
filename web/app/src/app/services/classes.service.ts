@@ -8,10 +8,10 @@ import { ClassType } from '../types/class-type';
 export class ClassesService {
 
   private classes: ClassType[] = [
-    { name: "ENGR 101I" },
-    { name: "ENGR 180W" },
-    { name: "CS 150" },
-    { name: "STAT 155" }
+    new ClassType(1, "ENGR 101I"),
+    new ClassType(2, "ENGR 180W"),
+    new ClassType(3, "CS 150"),
+    new ClassType(4, "STAT 155")
   ];
 
   constructor() {
@@ -19,5 +19,22 @@ export class ClassesService {
 
   public getClasses(): Observable<ClassType[]> {
     return of(this.classes);
+  }
+
+  public addClass(name: string) {
+    let max_id: number = Math.max.apply(Math, this.classes.map((cls) => { return cls.getId() }));
+    this.classes.push(new ClassType(max_id+1, name));
+  }
+
+  public deleteCourse(id: number) {
+    let index = this.classes.findIndex((cls) => cls.getId() == id);
+    this.classes.splice(index, 1);
+  }
+
+  public editCourseInfo(id: number, info: string) {
+    let clazz: ClassType | undefined = this.classes.find((cls) => (cls.getId() == id));
+    if (!clazz) return;
+
+    clazz.setInfo(info);
   }
 }
