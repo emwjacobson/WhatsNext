@@ -61,27 +61,57 @@ export class ClassesComponent implements OnInit {
     name.setValue("");
   }
 
-  public deleteClass(id: number | undefined) {
+  public deleteClass(id: number | undefined): void {
     if (!id) {
       return;
     }
     this.cs.deleteCourse(id);
   }
 
-  public editInfo() {
-    let elem: HTMLElement | null = document.getElementById('class-info');
+  public editInfo(): void {
     let modal = new bootstrap.Modal(document.getElementById('editInfoModal'));
-    if (!elem || !modal) return;
+    if (!modal) return;
     modal.show();
   }
 
-  public submitEditCourseInfo() {
-    let ta: HTMLTextAreaElement | null = document.getElementById("edit-textarea") as HTMLTextAreaElement;
-    let modal = new bootstrap.Modal(document.getElementById('editInfoModal'));
+  public editLinks(): void {
+    let modal = new bootstrap.Modal(document.getElementById('editLinksModal'));
+    if (!modal) return;
+    modal.show();
+  }
+
+  public submitEditCourseInfo(): void {
+    let ta: HTMLTextAreaElement | null = document.getElementById("edit-info-textarea") as HTMLTextAreaElement;
     let id: number | undefined = this.getSelectedClass()?.getId();
-    if (!modal || !ta || !ta.value || !id) return;
+    if (!ta || !ta.value || !id) return;
 
     this.cs.editCourseInfo(id, ta.value);
+  }
+
+  public submitEditCourseLinks(): void {
+    let form: HTMLFormElement | null = document.getElementById("class-link-form") as HTMLFormElement;
+    let id: number | undefined = this.getSelectedClass()?.getId();
+    if (!form || !id) return;
+    console.log('poop');
+
+    let links: ClassType.ClassLink[] = [];
+
+    let children: HTMLCollection = form.children;
+    // This loops through the .row elements
+    for(let i=0; i<children.length; i++) {
+      console.log('i', i);
+      let name_elem = (children[i].querySelector("#link-name") as HTMLInputElement);
+      let addr_elem = (children[i].querySelector("#link-address") as HTMLInputElement);
+      let name = name_elem.value;
+      let address = addr_elem.value;
+      if (!name || !address) continue;
+      links.push(new ClassType.ClassLink(address, name));
+      name_elem.value = "";
+      addr_elem.value = "";
+    }
+
+    console.log('asd');
+    this.cs.editCourseLinks(id, links);
   }
 
 }

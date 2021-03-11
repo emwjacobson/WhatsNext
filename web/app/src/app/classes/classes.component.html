@@ -36,13 +36,27 @@
                 {{ getSelectedClass()?.getName() }}
               </div>
             </div>
-            <div class="row">
+            <div class="row" (dblclick)="editInfo()">
               <div class="col-md-2 text-end">
-                Course Info:
+                Class Info:
               </div>
-              <div class="col-md-10" id="class-info" (dblclick)="editInfo()" style="white-space: pre">{{ getSelectedClass()?.getInfo() || "No info available." }}</div>
+              <div class="col-md-10">
+                <div *ngFor="let line of getSelectedClass()?.getInfo() || ['No info available.']">
+                  {{ line }}<br/>
+                </div>
+              </div>
             </div>
-            <div class="text-end">
+            <div class="row" (dblclick)="editLinks()">
+              <div class="col-md-2 text-end">
+                Class Links:
+              </div>
+              <div class="col-md-10">
+                <div *ngFor="let link of getSelectedClass()?.getLinks()">
+                  <a href="{{ link.getAddress() }}">{{ link.getText() }}</a><br/>
+                </div>
+              </div>
+            </div>
+            <div class="text-end pt-2">
               <button type="button" class="btn btn-outline-danger" (click)="deleteClass(getSelectedClass()?.getId())">Delete Course</button>
             </div>
           </div>
@@ -64,14 +78,48 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Course Info</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Edit Class Info</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        <textarea class="form-control" style="height: 300px" id="edit-textarea">{{ getSelectedClass()?.getInfo() }}</textarea>
+        <textarea class="form-control" style="height: 300px" id="edit-info-textarea">{{ getSelectedClass()?.getInfo() }}</textarea>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="submitEditCourseInfo()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editLinksModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Class Links</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="class-link-form">
+          <div class="row pb-3" *ngFor="let link of getSelectedClass()?.getLinks()">
+            <div class="col-4">
+              <input type="text" id="link-name" class="form-control" placeholder="Name" [value]="link.getText()">
+            </div>
+            <div class="col-8">
+              <input type="text" id="link-address" class="form-control" placeholder="URL" [value]="link.getAddress()">
+            </div>
+          </div>
+          <div class="row pb-3" *ngFor="let _ of [].constructor(2)">
+            <div class="col-4">
+              <input type="text" id="link-name" class="form-control" placeholder="Name">
+            </div>
+            <div class="col-8">
+              <input type="text" id="link-address" class="form-control" placeholder="URL">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="submitEditCourseLinks()">Save changes</button>
       </div>
     </div>
   </div>

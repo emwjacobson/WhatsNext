@@ -34,7 +34,14 @@ export class ClassesService {
   public editCourseInfo(id: number, info: string) {
     let clazz: ClassType | undefined = this.classes.find((cls) => (cls.getId() == id));
     if (!clazz) return;
+    let info_split: string[] = info.split("\n");
+    clazz.setInfo(info_split);
+  }
 
-    clazz.setInfo(info);
+  public editCourseLinks(id: number, links: ClassType.ClassLink[]) {
+    let clazz: ClassType | undefined = this.classes.find((cls) => (cls.getId() == id));
+    if (!clazz) return;
+    console.log(links);
+    clazz.setLinks(links);
   }
 }
