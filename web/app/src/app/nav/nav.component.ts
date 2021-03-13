@@ -10,9 +10,9 @@ export class NavComponent implements OnInit {
 
   title: String = environment.title;
   pages: any[] = [
-    { title: "Home", link: "/" },
-    { title: "Classes", link: "/classes" },
-    { title: "Work", link: "/work" }
+    { title: "Home", link: "/", exact: true},
+    { title: "Classes", link: "/classes", exact: false },
+    { title: "Work", link: "/work", exact: false }
   ]
 
   constructor() { }

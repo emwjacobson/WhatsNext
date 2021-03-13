@@ -75,8 +75,18 @@ export class ClassesComponent implements OnInit {
   }
 
   public editLinks(): void {
+    let form: HTMLFormElement | null = document.getElementById("class-link-form") as HTMLFormElement;
     let modal = new bootstrap.Modal(document.getElementById('editLinksModal'));
-    if (!modal) return;
+    if (!modal || !form) return;
+
+    let children: HTMLCollection = form.children;
+    for(let i=0; i<children.length;i++) {
+      if (children[i].id != "current-link") {
+        form.removeChild(children[i]);
+        i--;
+      }
+    }
+
     modal.show();
   }
 
@@ -92,26 +102,37 @@ export class ClassesComponent implements OnInit {
     let form: HTMLFormElement | null = document.getElementById("class-link-form") as HTMLFormElement;
     let id: number | undefined = this.getSelectedClass()?.getId();
     if (!form || !id) return;
-    console.log('poop');
 
     let links: ClassType.ClassLink[] = [];
 
     let children: HTMLCollection = form.children;
     // This loops through the .row elements
     for(let i=0; i<children.length; i++) {
-      console.log('i', i);
       let name_elem = (children[i].querySelector("#link-name") as HTMLInputElement);
       let addr_elem = (children[i].querySelector("#link-address") as HTMLInputElement);
       let name = name_elem.value;
       let address = addr_elem.value;
-      if (!name || !address) continue;
+      if (!name || !address) {
+        name_elem.value = "";
+        addr_elem.value = "";
+        continue;
+      };
       links.push(new ClassType.ClassLink(address, name));
       name_elem.value = "";
       addr_elem.value = "";
     }
 
-    console.log('asd');
     this.cs.editCourseLinks(id, links);
+  }
+
+  public addNewLink(): void {
+    let form: HTMLFormElement | null = document.querySelector("#class-link-form") as HTMLFormElement;
+    let blank_link: HTMLDivElement | null = document.querySelector("#blank-link-item") as HTMLDivElement;
+    if (!form || !blank_link) return;
+    let clone = blank_link.cloneNode(true) as HTMLDivElement;
+    clone.hidden = false;
+    clone.id = "";
+    form.appendChild(clone);
   }
 
 }

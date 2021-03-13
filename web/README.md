@@ -4,9 +4,10 @@ This is the website portion of this project. It was built using Angular as the f
 
 ## Development Environment
 
+0. Make sure that you are in the `web` directory.
 1. `docker build -f Dockerfile-dev -t web-dev .`
-2. `docker run --rm -it -v $(pwd)/app:/app -p 4200:4200 web-dev ng serve --watch --host 0.0.0.0`
 2. `docker run --rm -it -v $(pwd)/app:/app -p 4200:4200 web-dev`
+3. (Inside the container) `ng serve --watch --host 0.0.0.0`
 
 ## Deployment
 

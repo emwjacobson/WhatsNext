@@ -41,7 +41,6 @@ export class ClassesService {
   public editCourseLinks(id: number, links: ClassType.ClassLink[]) {
     let clazz: ClassType | undefined = this.classes.find((cls) => (cls.getId() == id));
     if (!clazz) return;
-    console.log(links);
     clazz.setLinks(links);
   }
 }
