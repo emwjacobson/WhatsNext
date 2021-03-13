@@ -19,13 +19,13 @@
         <div class="card">
           <div class="card-header">
             <ul class="nav nav-pills nav-fill card-header-pills flex-column flex-md-row">
-              <li class="nav-item">
+              <li class="nav-item mx-1" (dblclick)="editClass()">
                 <a class="nav-link flex-md-fill text-md-center"
                     routerLink="/classes"
                     routerLinkActive="active"
                     [routerLinkActiveOptions]="{exact: true}">General</a>
               </li>
-              <li class="nav-item" *ngFor="let class of getClasses()">
+              <li class="nav-item mx-1" *ngFor="let class of getClasses()" (dblclick)="editClass()">
                 <a class="nav-link flex-md-fill text-md-center"
                     routerLink="/classes/{{ class.getName() }}"
                     routerLinkActive="active"
@@ -42,7 +42,8 @@
                 {{ getSelectedClass()?.getName() }}
               </div>
             </div>
-            <div class="row pt-1" (dblclick)="editInfo()">
+
+            <div class="row pt-1">
               <div class="col-md-2 text-end">
                 Class Info
               </div>
@@ -52,7 +53,8 @@
                 </div>
               </div>
             </div>
-            <div class="row pt-1" (dblclick)="editLinks()">
+
+            <div class="row pt-1">
               <div class="col-md-2 text-end">
                 Class Links
               </div>
@@ -83,63 +85,51 @@
   </div>
 </section>
 
-<div class="modal fade" id="editInfoModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" #edit_class_modal>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Class Info</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Edit Class</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
       <div class="modal-body">
-        <textarea class="form-control" style="height: 300px" id="edit-info-textarea">{{ getSelectedClass()?.getInfo() }}</textarea>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="submitEditCourseInfo()">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="editLinksModal" data-bs-backdrop="static" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Class Links</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <p class="card-text">
-          Be sure to include 'http://' before every link.
-        </p>
-        <form id="class-link-form">
-          <div class="row pb-3" id="current-link" *ngFor="let link of getSelectedClass()?.getLinks()">
-            <div class="col-4">
-              <input type="text" id="link-name" class="form-control" placeholder="Name" [value]="link.getText()">
-            </div>
-            <div class="col-8">
-              <input type="text" id="link-address" class="form-control" placeholder="URL" [value]="link.getAddress()">
-            </div>
+        <div class="row">
+          <p class="h5 text-decoration-underline">
+            Class Info
+          </p>
+          <div class="col-12">
+            <textarea class="form-control" style="height: 300px" #edit_info_textarea>{{ getSelectedClass()?.getInfo() }}</textarea>
           </div>
-          <!-- <div class="row pb-3" id="current-link">
-            <div class="col-4">
-              <input type="text" id="link-name" class="form-control" placeholder="Name">
-            </div>
-            <div class="col-8">
-              <input type="text" id="link-address" class="form-control" placeholder="URL">
-            </div>
-          </div> -->
-        </form>
+        </div>
 
-        <button type="button" class="btn btn-success" (click)="addNewLink()">Add Item</button>
+        <div class="row pt-3">
+          <p class="h5 text-decoration-underline">
+            Class Links
+          </p>
+          <div class="col-12">
+            <form #class_link_form>
+              <div class="row pb-2" id="current-link" *ngFor="let link of getSelectedClass()?.getLinks()">
+                <div class="col-4">
+                  <input type="text" id="link-name" class="form-control" placeholder="Name" [value]="link.getText()">
+                </div>
+                <div class="col-8">
+                  <input type="text" id="link-address" class="form-control" placeholder="URL" [value]="link.getAddress()">
+                </div>
+              </div>
+            </form>
+
+            <button type="button" class="btn btn-success" (click)="addNewLink()">Add Item</button>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="submitEditCourseLinks()">Save changes</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="submitEditCourse()">Save changes</button>
       </div>
     </div>
   </div>
 </div>
 
-<div class="row pb-3" id="blank-link-item" hidden>
+<div class="row pb-2" id="blank-link-item" hidden>
   <div class="col-4">
     <input type="text" id="link-name" class="form-control" placeholder="Name">
   </div>

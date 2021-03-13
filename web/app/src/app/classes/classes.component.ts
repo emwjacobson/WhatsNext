@@ -1,5 +1,5 @@
 declare var bootstrap: any;
-import { Component, OnInit } from '@angular/core';
+import { Component, DoBootstrap, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ClassesService } from '../services/classes.service';
@@ -11,6 +11,9 @@ import { ClassType } from '../types/class-type';
   styleUrls: ['./classes.component.less']
 })
 export class ClassesComponent implements OnInit {
+  @ViewChild('edit_class_modal') private edit_class_modal: ElementRef<HTMLDivElement> | undefined;
+  @ViewChild('class_link_form') private class_link_form: ElementRef<HTMLFormElement> | undefined;
+  @ViewChild('edit_info_textarea') private class_info_textbox: ElementRef<HTMLTextAreaElement> | undefined;
 
   private classes: ClassType[] = [];
   private selected_class: String = "";
@@ -31,8 +34,6 @@ export class ClassesComponent implements OnInit {
         this.selected_class = params.class_name;
       }
     });
-
-
   }
 
   public getClasses(): ClassType[] {
@@ -68,21 +69,16 @@ export class ClassesComponent implements OnInit {
     this.cs.deleteCourse(id);
   }
 
-  public editInfo(): void {
-    let modal = new bootstrap.Modal(document.getElementById('editInfoModal'));
-    if (!modal) return;
-    modal.show();
-  }
+  public editClass(): void {
+    if (!this.edit_class_modal || !this.class_link_form) return;
+    let modal = new bootstrap.Modal(this.edit_class_modal.nativeElement);
 
-  public editLinks(): void {
-    let form: HTMLFormElement | null = document.getElementById("class-link-form") as HTMLFormElement;
-    let modal = new bootstrap.Modal(document.getElementById('editLinksModal'));
-    if (!modal || !form) return;
+    let link_form = this.class_link_form.nativeElement;
 
-    let children: HTMLCollection = form.children;
+    let children: HTMLCollection = link_form.children;
     for(let i=0; i<children.length;i++) {
       if (children[i].id != "current-link") {
-        form.removeChild(children[i]);
+        link_form.removeChild(children[i]);
         i--;
       }
     }
@@ -90,49 +86,51 @@ export class ClassesComponent implements OnInit {
     modal.show();
   }
 
-  public submitEditCourseInfo(): void {
-    let ta: HTMLTextAreaElement | null = document.getElementById("edit-info-textarea") as HTMLTextAreaElement;
-    let id: number | undefined = this.getSelectedClass()?.getId();
-    if (!ta || !ta.value || !id) return;
-
-    this.cs.editCourseInfo(id, ta.value);
-  }
-
-  public submitEditCourseLinks(): void {
-    let form: HTMLFormElement | null = document.getElementById("class-link-form") as HTMLFormElement;
-    let id: number | undefined = this.getSelectedClass()?.getId();
-    if (!form || !id) return;
+  public submitEditCourse(): void {
+    let selected_class = this.getSelectedClass();
+    if (!selected_class || !this.class_info_textbox) return;
+    console.log(this.class_info_textbox.nativeElement.value);
 
     let links: ClassType.ClassLink[] = [];
+    // TODO: Reimplement loop from below!
 
-    let children: HTMLCollection = form.children;
-    // This loops through the .row elements
-    for(let i=0; i<children.length; i++) {
-      let name_elem = (children[i].querySelector("#link-name") as HTMLInputElement);
-      let addr_elem = (children[i].querySelector("#link-address") as HTMLInputElement);
-      let name = name_elem.value;
-      let address = addr_elem.value;
-      if (!name || !address) {
-        name_elem.value = "";
-        addr_elem.value = "";
-        continue;
-      };
-      links.push(new ClassType.ClassLink(address, name));
-      name_elem.value = "";
-      addr_elem.value = "";
-    }
+    this.cs.editCourseInfo(selected_class.getId(), this.class_info_textbox.nativeElement.value);
+    this.cs.editCourseLinks(selected_class.getId(), links);
 
-    this.cs.editCourseLinks(id, links);
+
+    // let form: HTMLFormElement | null = document.getElementById("class-link-form") as HTMLFormElement;
+    // let id: number | undefined = this.getSelectedClass()?.getId();
+    // if (!form || !id) return;
+
+    // let links: ClassType.ClassLink[] = [];
+
+    // let children: HTMLCollection = form.children;
+    // // This loops through the .row elements
+    // for(let i=0; i<children.length; i++) {
+    //   let name_elem = (children[i].querySelector("#link-name") as HTMLInputElement);
+    //   let addr_elem = (children[i].querySelector("#link-address") as HTMLInputElement);
+    //   let name = name_elem.value;
+    //   let address = addr_elem.value;
+    //   if (!name || !address) {
+    //     name_elem.value = "";
+    //     addr_elem.value = "";
+    //     continue;
+    //   };
+    //   links.push(new ClassType.ClassLink(address, name));
+    //   name_elem.value = "";
+    //   addr_elem.value = "";
+    // }
+
+    // this.cs.editCourseLinks(id, links);
   }
 
   public addNewLink(): void {
-    let form: HTMLFormElement | null = document.querySelector("#class-link-form") as HTMLFormElement;
     let blank_link: HTMLDivElement | null = document.querySelector("#blank-link-item") as HTMLDivElement;
-    if (!form || !blank_link) return;
+    if (!this.class_link_form || !blank_link) return;
     let clone = blank_link.cloneNode(true) as HTMLDivElement;
     clone.hidden = false;
     clone.id = "";
-    form.appendChild(clone);
+    this.class_link_form.nativeElement.appendChild(clone);
   }
 
 }
