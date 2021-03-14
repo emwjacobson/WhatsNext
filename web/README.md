@@ -7,7 +7,11 @@ This is the website portion of this project. It was built using Angular as the f
 0. Make sure that you are in the `web` directory.
 1. `docker build -f Dockerfile-dev -t web-dev .`
 2. `docker run --rm -it -v $(pwd)/app:/app -p 4200:4200 web-dev`
-3. (Inside the container) `ng serve --watch --host 0.0.0.0`
+3. (Inside the container) `npm install`
+
+    Note: This only needs to be done once, as it installed all required modules into the mounted directory.
+
+4. (Inside the container) `ng serve --watch --host 0.0.0.0`
 
 ## Deployment
 
