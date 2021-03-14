@@ -3,6 +3,8 @@ FROM node:15
 WORKDIR /app
 
 RUN npm install -g @angular/cli
+ADD ./app/package.json package.json
+RUN npm install
 
 USER node
 
