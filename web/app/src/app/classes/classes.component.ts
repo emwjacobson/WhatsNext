@@ -70,11 +70,11 @@ export class ClassesComponent implements OnInit {
   }
 
   public editClass(): void {
-    if (!this.edit_class_modal || !this.class_link_form) return;
+    let selected_class = this.getSelectedClass();
+    if (!this.edit_class_modal || !this.class_link_form|| !this.class_info_textbox || !selected_class) return;
     let modal = new bootstrap.Modal(this.edit_class_modal.nativeElement);
 
     let link_form = this.class_link_form.nativeElement;
-
     let children: HTMLCollection = link_form.children;
     for(let i=0; i<children.length;i++) {
       if (children[i].id != "current-link") {
@@ -83,45 +83,36 @@ export class ClassesComponent implements OnInit {
       }
     }
 
+    this.class_info_textbox.nativeElement.value = (selected_class.getInfo() || []).join("\n");
     modal.show();
   }
 
   public submitEditCourse(): void {
     let selected_class = this.getSelectedClass();
-    if (!selected_class || !this.class_info_textbox) return;
-    console.log(this.class_info_textbox.nativeElement.value);
+    if (!selected_class || !this.class_info_textbox || !this.class_link_form) return;
 
     let links: ClassType.ClassLink[] = [];
-    // TODO: Reimplement loop from below!
+    let children: HTMLCollection = this.class_link_form.nativeElement.children;
+    // This loops through the .row elements
+    for(let i=0; i<children.length; i++) {
+      let name_elem = (children[i].querySelector("#link-name") as HTMLInputElement);
+      let addr_elem = (children[i].querySelector("#link-address") as HTMLInputElement);
+      let name = name_elem.value;
+      let address = addr_elem.value;
+      if (!name || !address) {
+        name_elem.value = "";
+        addr_elem.value = "";
+        continue;
+      };
+      links.push(new ClassType.ClassLink(address, name));
+      name_elem.value = "";
+      addr_elem.value = "";
+    }
 
-    this.cs.editCourseInfo(selected_class.getId(), this.class_info_textbox.nativeElement.value);
-    this.cs.editCourseLinks(selected_class.getId(), links);
-
-
-    // let form: HTMLFormElement | null = document.getElementById("class-link-form") as HTMLFormElement;
-    // let id: number | undefined = this.getSelectedClass()?.getId();
-    // if (!form || !id) return;
-
-    // let links: ClassType.ClassLink[] = [];
-
-    // let children: HTMLCollection = form.children;
-    // // This loops through the .row elements
-    // for(let i=0; i<children.length; i++) {
-    //   let name_elem = (children[i].querySelector("#link-name") as HTMLInputElement);
-    //   let addr_elem = (children[i].querySelector("#link-address") as HTMLInputElement);
-    //   let name = name_elem.value;
-    //   let address = addr_elem.value;
-    //   if (!name || !address) {
-    //     name_elem.value = "";
-    //     addr_elem.value = "";
-    //     continue;
-    //   };
-    //   links.push(new ClassType.ClassLink(address, name));
-    //   name_elem.value = "";
-    //   addr_elem.value = "";
-    // }
-
-    // this.cs.editCourseLinks(id, links);
+    if (this.class_info_textbox.nativeElement.value)
+      this.cs.editCourseInfo(selected_class.getId(), this.class_info_textbox.nativeElement.value);
+    if (links.length > 0)
+      this.cs.editCourseLinks(selected_class.getId(), links);
   }
 
   public addNewLink(): void {
