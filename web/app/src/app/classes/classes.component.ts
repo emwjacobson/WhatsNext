@@ -12,6 +12,7 @@ import { ClassType } from '../types/class-type';
 })
 export class ClassesComponent implements OnInit {
   @ViewChild('edit_class_modal') private edit_class_modal: ElementRef<HTMLDivElement> | undefined;
+  @ViewChild('delete_class_modal') private delete_class_modal: ElementRef<HTMLDivElement> | undefined;
   @ViewChild('class_link_form') private class_link_form: ElementRef<HTMLFormElement> | undefined;
   @ViewChild('edit_info_textarea') private class_info_textbox: ElementRef<HTMLTextAreaElement> | undefined;
 
@@ -62,11 +63,18 @@ export class ClassesComponent implements OnInit {
     name.setValue("");
   }
 
-  public deleteClass(id: number | undefined): void {
-    if (!id) {
-      return;
-    }
-    this.cs.deleteCourse(id);
+  public deleteClass(): void {
+    if (!this.delete_class_modal) return;
+    let modal = new bootstrap.Modal(this.delete_class_modal.nativeElement);
+
+    modal.show();
+  }
+
+  public confirmDeleteClass(): void {
+    let selected_class = this.getSelectedClass();
+    if (!selected_class) return;
+    
+    this.cs.deleteCourse(selected_class.getId());
   }
 
   public editClass(): void {
