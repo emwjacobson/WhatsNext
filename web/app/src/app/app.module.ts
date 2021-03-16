@@ -8,13 +8,15 @@ import { HomeComponent } from './home/home.component';
 import { ClassesComponent } from './classes/classes.component';
 import { ClassesService } from './services/classes.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { WorkComponent } from './work/work.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     HomeComponent,
-    ClassesComponent
+    ClassesComponent,
+    WorkComponent
   ],
   imports: [
     BrowserModule,
