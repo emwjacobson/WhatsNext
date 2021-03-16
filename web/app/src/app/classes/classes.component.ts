@@ -50,7 +50,7 @@ export class ClassesComponent implements OnInit {
   public submitAddClass(): void {
     let name: AbstractControl | null = this.add_class_form.get("name");
     if (!name) {
-      console.log("Name was nulll...")
+      console.log("Name was null...")
       return;
     }
 
