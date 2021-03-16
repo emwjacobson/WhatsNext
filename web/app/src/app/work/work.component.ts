@@ -12,4 +12,19 @@ export class WorkComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  public getTodoEntries() {
+    console.log("Implement getTodoEntries()");
+    return [];
+  }
+
+  public getInProgressEntries() {
+    console.log("Implement getInProgressEntries()");
+    return [];
+  }
+
+  public getDoneEntries() {
+    console.log("Implement getDoneEntries()");
+    return [];
+  }
+
 }

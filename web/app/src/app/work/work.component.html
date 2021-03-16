@@ -1,14 +1,43 @@
 <section>
-  <div class="container">
-    <div class="row justify-content-md-center">
+  <div class="container-lg">
+    <div class="row">
 
-      <div class="col-md-10">
+      <div class="col-md-12">
         <div class="card">
           <h5 class="card-header">Todo List</h5>
           <div class="card-body">
-            <p class="card-text">
-              Welcome! I need to fill in more content here!
-            </p>
+            <div class="row">
+              <div class="col-4 p-1">
+                <div class="card">
+                  <div class="card-header">To do</div>
+                  <div class="card-body">
+
+                    <div class="card" *ngFor="let entry of getTodoEntries()"></div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-4 p-1">
+                <div class="card">
+                  <div class="card-header">In Progress</div>
+                  <div class="card-body">
+
+                    <div class="card" *ngFor="let entry of getInProgressEntries()"></div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="col-4 p-1">
+                <div class="card">
+                  <div class="card-header">Done</div>
+                  <div class="card-body">
+
+                    <div class="card" *ngFor="let entry of getDoneEntries()"></div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
