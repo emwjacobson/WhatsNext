@@ -45,22 +45,8 @@ export class EntryService {
     return this.done_entries;
   }
 
-  public updateAllEntries(todo: EntryType[], in_progress: EntryType[], done: EntryType[]) {
-    this.updateTodoEntries(todo);
-    this.updateInProgressEntries(in_progress);
-    this.updateDoneEntries(done);
-  }
-
-  public updateTodoEntries(entries: EntryType[]): void {
-    this.todo_entries = entries;
-  }
-
-  public updateInProgressEntries(entries: EntryType[]): void {
-    this.in_progress_entries = entries;
-  }
-
-  public updateDoneEntries(entries: EntryType[]): void {
-    this.done_entries = entries;
+  public saveEntries(): void {
+    console.log("Saved Entries");
   }
 
 }

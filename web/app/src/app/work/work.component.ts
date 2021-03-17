@@ -46,7 +46,7 @@ export class WorkComponent implements OnInit {
                         event.previousIndex,
                         event.currentIndex);
     }
-    this.es.updateAllEntries(this.todo_entries, this.in_progress_entries, this.done_entries);
+    this.es.saveEntries();
   }
 
 }
