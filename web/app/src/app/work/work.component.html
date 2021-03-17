@@ -7,42 +7,58 @@
           <h5 class="card-header">Todo List</h5>
           <div class="card-body">
             <div class="row">
-              <div class="col-4 p-1">
+
+              <div class="col-md-4 p-1">
                 <div class="card">
-                  <div class="card-header">To do</div>
-                  <div class="card-body">
+                  <div class="card-header bg-primary bg-gradient">To do</div>
+                  <div class="card-body bg-primary p-0">
 
-                    <div class="card" *ngFor="let entry of getTodoEntries()">
-
+                    <div class="card m-1 draggable-entry" style="opacity: 0.97;" draggable="true" *ngFor="let entry of getTodoEntries()">
+                      <div class="card-body">
+                        <h4 class="card-title">{{ entry.getName() }}</h4>
+                        <h6 class="card-subtitle mb-2 text-muted">Due: {{ entry.getDueDate() | date:'medium' }}</h6>
+                        Info
+                      </div>
                     </div>
 
                   </div>
                 </div>
               </div>
-              <div class="col-4 p-1">
+
+              <div class="col-md-4 p-1">
                 <div class="card">
-                  <div class="card-header">In Progress</div>
-                  <div class="card-body">
+                  <div class="card-header bg-warning bg-gradient">In Progress</div>
+                  <div class="card-body bg-warning p-0">
 
-                    <div class="card" *ngFor="let entry of getInProgressEntries()">
-
+                    <div class="card m-1 draggable-entry" style="opacity: 0.97;" draggable="true" *ngFor="let entry of getInProgressEntries()">
+                      <div class="card-body">
+                        <h4 class="card-title">{{ entry.getName() }}</h4>
+                        <h6 class="card-subtitle mb-2 text-muted">Due: {{ entry.getDueDate() | date:'medium' }}</h6>
+                        Info
+                      </div>
                     </div>
 
                   </div>
                 </div>
               </div>
-              <div class="col-4 p-1">
+
+              <div class="col-md-4 p-1">
                 <div class="card">
-                  <div class="card-header">Done</div>
-                  <div class="card-body">
+                  <div class="card-header bg-success bg-gradient">Done</div>
+                  <div class="card-body bg-success p-0">
 
-                    <div class="card" *ngFor="let entry of getDoneEntries()">
-
+                    <div class="card m-1 draggable-entry" style="opacity: 0.97;" draggable="true" *ngFor="let entry of getDoneEntries()">
+                      <div class="card-body">
+                        <h4 class="card-title">{{ entry.getName() }}</h4>
+                        <h6 class="card-subtitle mb-2 text-muted">Due: {{ entry.getDueDate() | date:'medium' }}</h6>
+                        Info
+                      </div>
                     </div>
 
                   </div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
