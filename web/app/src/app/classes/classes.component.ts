@@ -16,18 +16,18 @@ export class ClassesComponent implements OnInit {
   @ViewChild('class_link_form') private class_link_form: ElementRef<HTMLFormElement> | undefined;
   @ViewChild('edit_info_textarea') private class_info_textbox: ElementRef<HTMLTextAreaElement> | undefined;
 
-  private classes: ClassType[] = [];
+  private readonly classes: ClassType[] = [];
   private selected_class: String = "";
   public add_class_form: FormGroup = new FormGroup({
     name: new FormControl('')
   });
 
   constructor(private cs: ClassesService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute) {
+    this.classes = this.cs.getClasses();
+  }
 
   ngOnInit(): void {
-    this.classes = this.cs.getClasses();
-
     this.route.params.subscribe((params) => {
       if (params.class_name) {
         this.selected_class = params.class_name;

@@ -1,4 +1,4 @@
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { EntryService } from '../services/entry.service';
 import { EntryType } from '../types/entry-type';
@@ -10,16 +10,17 @@ import { EntryType } from '../types/entry-type';
 })
 export class WorkComponent implements OnInit {
 
-  public todo_entries: EntryType[] = [];
-  public in_progress_entries: EntryType[] = [];
-  public done_entries: EntryType[] = [];
+  public readonly todo_entries: EntryType[] = [];
+  public readonly in_progress_entries: EntryType[] = [];
+  public readonly done_entries: EntryType[] = [];
 
-  constructor(private es: EntryService) { }
-
-  ngOnInit(): void {
+  constructor(private es: EntryService) {
     this.todo_entries = this.es.getTodoEntries();
     this.in_progress_entries = this.es.getInProgressEntries();
     this.done_entries = this.es.getDoneEntries();
+  }
+
+  ngOnInit(): void {
   }
 
   public getTodoEntries(): EntryType[] {
@@ -37,14 +38,11 @@ export class WorkComponent implements OnInit {
   public drop(event: CdkDragDrop<EntryType[]>): void {
     // If moving to the same list, then just rearrange the order
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      this.es.reorderEntries(event.container.data, event.previousIndex, event.currentIndex);
 
     // If moving to a different list, then move to new list in correct position
     } else {
-      transferArrayItem(event.previousContainer.data,
-                        event.container.data,
-                        event.previousIndex,
-                        event.currentIndex);
+      this.es.transferEntry(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
     }
     this.es.saveEntries();
   }

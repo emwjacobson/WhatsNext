@@ -1,3 +1,4 @@
+import { moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Injectable } from '@angular/core';
 import { EntryType } from '../types/entry-type';
 import { ClassesService } from './classes.service';
@@ -42,6 +43,14 @@ export class EntryService {
 
   public getDoneEntries(): EntryType[] {
     return this.done_entries;
+  }
+
+  public reorderEntries(entries: EntryType[], before_index: number, after_index: number): void {
+    moveItemInArray<EntryType>(entries, before_index, after_index);
+  }
+
+  public transferEntry(before_list: EntryType[], after_list: EntryType[], before_index: number, after_index: number): void {
+    transferArrayItem<EntryType>(before_list, after_list, before_index, after_index);
   }
 
   public saveEntries(): void {
