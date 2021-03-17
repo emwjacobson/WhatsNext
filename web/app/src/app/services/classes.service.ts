@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { ClassType } from '../types/class-type';
 
 @Injectable({
@@ -17,8 +16,8 @@ export class ClassesService {
   constructor() {
   }
 
-  public getClasses(): Observable<ClassType[]> {
-    return of(this.classes);
+  public getClasses(): ClassType[] {
+    return this.classes;
   }
 
   public addClass(name: string) {

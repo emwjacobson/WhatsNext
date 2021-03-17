@@ -17,18 +17,9 @@ export class WorkComponent implements OnInit {
   constructor(private es: EntryService) { }
 
   ngOnInit(): void {
-    this.es.getTodoEntries().subscribe((entries: EntryType[]) => {
-      console.log("Updated todo...");
-      this.todo_entries = entries;
-    });
-
-    this.es.getInProgressEntries().subscribe((entries: EntryType[]) => {
-      this.in_progress_entries = entries;
-    });
-
-    this.es.getDoneEntries().subscribe((entries: EntryType[]) => {
-      this.done_entries = entries;
-    });
+    this.todo_entries = this.es.getTodoEntries();
+    this.in_progress_entries = this.es.getInProgressEntries();
+    this.done_entries = this.es.getDoneEntries();
   }
 
   public getTodoEntries(): EntryType[] {

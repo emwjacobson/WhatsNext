@@ -1,5 +1,5 @@
 declare var bootstrap: any;
-import { Component, DoBootstrap, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ClassesService } from '../services/classes.service';
@@ -26,9 +26,7 @@ export class ClassesComponent implements OnInit {
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.cs.getClasses().subscribe((classes) => {
-      this.classes = classes;
-    });
+    this.classes = this.cs.getClasses();
 
     this.route.params.subscribe((params) => {
       if (params.class_name) {
@@ -73,7 +71,7 @@ export class ClassesComponent implements OnInit {
   public confirmDeleteClass(): void {
     let selected_class = this.getSelectedClass();
     if (!selected_class) return;
-    
+
     this.cs.deleteCourse(selected_class.getId());
   }
 
