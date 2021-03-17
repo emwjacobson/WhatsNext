@@ -17,15 +17,16 @@ export class WorkComponent implements OnInit {
   constructor(private es: EntryService) { }
 
   ngOnInit(): void {
-    this.es.getTodoEntries().subscribe((entries) => {
+    this.es.getTodoEntries().subscribe((entries: EntryType[]) => {
+      console.log("Updated todo...");
       this.todo_entries = entries;
     });
 
-    this.es.getInProgressEntries().subscribe((entries) => {
+    this.es.getInProgressEntries().subscribe((entries: EntryType[]) => {
       this.in_progress_entries = entries;
     });
 
-    this.es.getDoneEntries().subscribe((entries) => {
+    this.es.getDoneEntries().subscribe((entries: EntryType[]) => {
       this.done_entries = entries;
     });
   }
@@ -42,7 +43,7 @@ export class WorkComponent implements OnInit {
     return this.done_entries;
   }
 
-  drop(event: CdkDragDrop<EntryType[]>) {
+  public drop(event: CdkDragDrop<EntryType[]>): void {
     // If moving to the same list, then just rearrange the order
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -54,7 +55,7 @@ export class WorkComponent implements OnInit {
                         event.previousIndex,
                         event.currentIndex);
     }
-    console.log("Implement saving.");
+    this.es.updateAllEntries(this.todo_entries, this.in_progress_entries, this.done_entries);
   }
 
 }
