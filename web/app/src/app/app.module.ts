@@ -9,6 +9,8 @@ import { ClassesComponent } from './classes/classes.component';
 import { ClassesService } from './services/classes.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { WorkComponent } from './work/work.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DragDropModule } from '@angular/cdk/drag-drop'
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { WorkComponent } from './work/work.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    DragDropModule
   ],
   providers: [
     ClassesService

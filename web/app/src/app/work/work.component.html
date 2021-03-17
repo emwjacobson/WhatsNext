@@ -6,15 +6,15 @@
         <div class="card">
           <h5 class="card-header">Todo List</h5>
           <div class="card-body">
-            <div class="row">
+            <div class="row" cdkDropListGroup>
 
               <div class="col-md-4 p-1">
                 <div class="card">
                   <div class="card-header bg-primary bg-gradient">To do</div>
-                  <div class="card-body bg-primary p-0">
+                  <div class="card-body bg-primary p-0" style="min-height: 100px;"
+                    cdkDropList [cdkDropListData]="todo_entries" (cdkDropListDropped)="drop($event)">
 
-                    <div class="card m-1" id="draggable-entry" style="opacity: 0.97;" draggable="true" *ngFor="let entry of getTodoEntries()"
-                        (dragstart)="dragStart($event)" (dragend)="dragEnd($event)" (drag)="drag($event)" (drop)="drop($event)">
+                    <div class="card m-1" id="draggable-entry" *ngFor="let entry of getTodoEntries()" cdkDrag>
                       <div class="card-body">
                         <h4 class="card-title">{{ entry.getName() }}</h4>
                         <h6 class="card-subtitle mb-2 text-muted">Due: {{ entry.getDueDate() | date:'medium' }}</h6>
@@ -29,10 +29,10 @@
               <div class="col-md-4 p-1">
                 <div class="card">
                   <div class="card-header bg-warning bg-gradient">In Progress</div>
-                  <div class="card-body bg-warning p-0">
+                  <div class="card-body bg-warning p-0" style="min-height: 100px;"
+                    cdkDropList [cdkDropListData]="in_progress_entries" (cdkDropListDropped)="drop($event)">
 
-                    <div class="card m-1" id="draggable-entry" style="opacity: 0.97;" draggable="true" *ngFor="let entry of getInProgressEntries()"
-                    (dragstart)="dragStart($event)" (dragend)="dragEnd($event)" (drag)="drag($event)" (drop)="drop($event)">
+                    <div class="card m-1" id="draggable-entry" *ngFor="let entry of getInProgressEntries()" cdkDrag>
                       <div class="card-body">
                         <h4 class="card-title">{{ entry.getName() }}</h4>
                         <h6 class="card-subtitle mb-2 text-muted">Due: {{ entry.getDueDate() | date:'medium' }}</h6>
@@ -47,10 +47,10 @@
               <div class="col-md-4 p-1">
                 <div class="card">
                   <div class="card-header bg-success bg-gradient">Done</div>
-                  <div class="card-body bg-success p-0">
+                  <div class="card-body bg-success p-0" style="min-height: 100px;"
+                    cdkDropList [cdkDropListData]="done_entries" (cdkDropListDropped)="drop($event)">
 
-                    <div class="card m-1" id="draggable-entry" style="opacity: 0.97;" draggable="true" *ngFor="let entry of getDoneEntries()"
-                    (dragstart)="dragStart($event)" (dragend)="dragEnd($event)" (drag)="drag($event)" (drop)="drop($event)">
+                    <div class="card m-1" id="draggable-entry" *ngFor="let entry of getDoneEntries()" cdkDrag>
                       <div class="card-body">
                         <h4 class="card-title">{{ entry.getName() }}</h4>
                         <h6 class="card-subtitle mb-2 text-muted">Due: {{ entry.getDueDate() | date:'medium' }}</h6>
