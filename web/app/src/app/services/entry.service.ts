@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ClassType } from '../types/class-type';
 import { EntryType } from '../types/entry-type';
 import { ClassesService } from './classes.service';
 
@@ -8,9 +7,9 @@ import { ClassesService } from './classes.service';
 })
 export class EntryService {
 
-  private todo_entries: EntryType[] = [];
-  private in_progress_entries: EntryType[] = [];
-  private done_entries: EntryType[] = [];
+  private readonly todo_entries: EntryType[] = [];
+  private readonly in_progress_entries: EntryType[] = [];
+  private readonly done_entries: EntryType[] = [];
 
   constructor(private cs: ClassesService) {
     let classes = this.cs.getClasses();
