@@ -29,16 +29,33 @@ export class WorkComponent implements OnInit {
     });
   }
 
-  public getTodoEntries() {
+  public getTodoEntries(): EntryType[] {
     return this.todo_entries;
   }
 
-  public getInProgressEntries() {
+  public getInProgressEntries(): EntryType[] {
     return this.in_progress_entries;
   }
 
-  public getDoneEntries() {
+  public getDoneEntries(): EntryType[] {
     return this.done_entries;
+  }
+
+  public dragStart(event: DragEvent) {
+    console.log("dragStart");
+  }
+
+  public dragEnd(event: DragEvent) {
+    console.log("dragEnd")
+  }
+
+  public drag(event: DragEvent) {
+    console.log("drag");
+  }
+
+  public drop(event: Event) {
+    console.log(event);
+    console.log("drop");
   }
 
 }
