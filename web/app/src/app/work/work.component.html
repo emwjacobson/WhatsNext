@@ -10,7 +10,7 @@
 
               <div class="col-md-4 p-1">
                 <div class="card">
-                  <div class="card-header bg-primary bg-gradient">To do</div>
+                  <h5 class="card-header bg-primary bg-gradient">To do</h5>
                   <div class="card-body bg-primary p-0" style="min-height: 100px;"
                     cdkDropList [cdkDropListData]="todo_entries" (cdkDropListDropped)="drop($event)">
 
@@ -28,7 +28,7 @@
 
               <div class="col-md-4 p-1">
                 <div class="card">
-                  <div class="card-header bg-warning bg-gradient">In Progress</div>
+                  <h5 class="card-header bg-warning bg-gradient">In Progress</h5>
                   <div class="card-body bg-warning p-0" style="min-height: 100px;"
                     cdkDropList [cdkDropListData]="in_progress_entries" (cdkDropListDropped)="drop($event)">
 
@@ -46,7 +46,7 @@
 
               <div class="col-md-4 p-1">
                 <div class="card">
-                  <div class="card-header bg-success bg-gradient">Done</div>
+                  <h5 class="card-header bg-success bg-gradient">Done</h5>
                   <div class="card-body bg-success p-0" style="min-height: 100px;"
                     cdkDropList [cdkDropListData]="done_entries" (cdkDropListDropped)="drop($event)">
 
