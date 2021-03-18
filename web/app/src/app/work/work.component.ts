@@ -44,11 +44,10 @@ export class WorkComponent implements OnInit {
     } else {
       this.es.transferEntry(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
     }
-    this.es.saveEntries();
   }
 
   public addTodoEntry(): void {
-    console.log("addTodoEntry");
+    this.es.addTodoEntry();
   }
 
   public addInProgressEntry(): void {
@@ -60,7 +59,7 @@ export class WorkComponent implements OnInit {
   }
 
   public deleteEntry(id: number): void {
-    console.log(id);
+    this.es.deleteEntry(id);
   }
 
 }
