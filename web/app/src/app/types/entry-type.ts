@@ -15,6 +15,10 @@ export class EntryType {
         this.info = info;
     }
 
+    public getId(): number {
+        return this.id;
+    }
+
     public getParentClass(): ClassType {
         return this.parent_class;
     }

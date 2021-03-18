@@ -47,4 +47,20 @@ export class WorkComponent implements OnInit {
     this.es.saveEntries();
   }
 
+  public addTodoEntry(): void {
+    console.log("addTodoEntry");
+  }
+
+  public addInProgressEntry(): void {
+    console.log("addInProgressEntry");
+  }
+
+  public addDoneEntry(): void {
+    console.log("addDoneEntry");
+  }
+
+  public deleteEntry(id: number): void {
+    console.log(id);
+  }
+
 }

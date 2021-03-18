@@ -10,12 +10,23 @@
 
               <div class="col-md-4 p-1">
                 <div class="card">
-                  <h5 class="card-header bg-primary bg-gradient">To do</h5>
+                  <h5 class="card-header bg-primary bg-gradient">
+                    To do
+                    <div class="position-absolute top-0 end-0 pt-2 pe-3">
+                      <i class="bi bi-plus-square-fill" (click)="addTodoEntry()" style="cursor: pointer;"></i>
+                    </div>
+                  </h5>
                   <div class="card-body bg-primary p-0" style="min-height: 100px;"
                     cdkDropList [cdkDropListData]="todo_entries" (cdkDropListDropped)="drop($event)">
 
                     <div class="card m-1" id="draggable-entry" *ngFor="let entry of getTodoEntries()" cdkDrag>
                       <div class="card-body">
+                        <div class="btn-group dropstart position-absolute top-0 end-0 pt-2 pe-3">
+                          <div class="bi bi-three-dots" style="cursor: pointer;" data-bs-toggle="dropdown"></div>
+                          <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" (click)="deleteEntry(entry.getId())">Delete</a></li>
+                          </ul>
+                        </div>
                         <h4 class="card-title">{{ entry.getName() }}</h4>
                         <h6 class="card-subtitle mb-2 text-muted">Due: {{ entry.getDueDate() | date:'medium' }}</h6>
                         Info
@@ -28,12 +39,23 @@
 
               <div class="col-md-4 p-1">
                 <div class="card">
-                  <h5 class="card-header bg-warning bg-gradient">In Progress</h5>
+                  <h5 class="card-header bg-warning bg-gradient">
+                    In Progress
+                    <div class="position-absolute top-0 end-0 pt-2 pe-3">
+                      <i class="bi bi-plus-square-fill" (click)="addInProgressEntry()" style="cursor: pointer;"></i>
+                    </div>
+                  </h5>
                   <div class="card-body bg-warning p-0" style="min-height: 100px;"
                     cdkDropList [cdkDropListData]="in_progress_entries" (cdkDropListDropped)="drop($event)">
 
                     <div class="card m-1" id="draggable-entry" *ngFor="let entry of getInProgressEntries()" cdkDrag>
                       <div class="card-body">
+                        <div class="btn-group dropstart position-absolute top-0 end-0 pt-2 pe-3">
+                          <div class="bi bi-three-dots" style="cursor: pointer;" data-bs-toggle="dropdown"></div>
+                          <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" (click)="deleteEntry(entry.getId())">Delete</a></li>
+                          </ul>
+                        </div>
                         <h4 class="card-title">{{ entry.getName() }}</h4>
                         <h6 class="card-subtitle mb-2 text-muted">Due: {{ entry.getDueDate() | date:'medium' }}</h6>
                         Info
@@ -46,12 +68,23 @@
 
               <div class="col-md-4 p-1">
                 <div class="card">
-                  <h5 class="card-header bg-success bg-gradient">Done</h5>
+                  <h5 class="card-header bg-success bg-gradient">
+                    Done
+                    <div class="position-absolute top-0 end-0 pt-2 pe-3">
+                      <i class="bi bi-plus-square-fill" (click)="addDoneEntry()" style="cursor: pointer;"></i>
+                    </div>
+                  </h5>
                   <div class="card-body bg-success p-0" style="min-height: 100px;"
                     cdkDropList [cdkDropListData]="done_entries" (cdkDropListDropped)="drop($event)">
 
                     <div class="card m-1" id="draggable-entry" *ngFor="let entry of getDoneEntries()" cdkDrag>
                       <div class="card-body">
+                        <div class="btn-group dropstart position-absolute top-0 end-0 pt-2 pe-3">
+                          <div class="bi bi-three-dots" style="cursor: pointer;" data-bs-toggle="dropdown"></div>
+                          <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" (click)="deleteEntry(entry.getId())">Delete</a></li>
+                          </ul>
+                        </div>
                         <h4 class="card-title">{{ entry.getName() }}</h4>
                         <h6 class="card-subtitle mb-2 text-muted">Due: {{ entry.getDueDate() | date:'medium' }}</h6>
                         Info
