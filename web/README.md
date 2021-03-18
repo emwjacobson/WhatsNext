@@ -5,7 +5,7 @@ This is the website portion of this project. It was built using Angular as the f
 ## Development Environment
 
 0. Make sure that you are in the `web` directory.
-1. `docker build -f Dockerfile-dev -t web-dev .`
+1. `docker build --target development -t web-dev .`
 2. `docker run --rm -it -v $(pwd)/app:/app -p 4200:4200 web-dev:latest`
 3. (Inside the container) `npm install`
 
@@ -15,4 +15,4 @@ This is the website portion of this project. It was built using Angular as the f
 
 ## Deployment
 
-TODO
+Refer to the main project's `README.md` for running in production.
