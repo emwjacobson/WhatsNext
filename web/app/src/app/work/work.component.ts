@@ -59,7 +59,9 @@ export class WorkComponent implements OnInit {
   }
 
   public deleteEntry(id: number): void {
-    this.es.deleteEntry(id);
+    if(window.confirm("Are you sure you want to delete this entry?")) {
+      this.es.deleteEntry(id);
+    }
   }
 
 }
