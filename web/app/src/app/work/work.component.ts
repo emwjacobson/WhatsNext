@@ -1,5 +1,7 @@
+declare var bootstrap: any;
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { Component, OnInit } from '@angular/core';
+import { ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { EntryService } from '../services/entry.service';
 import { EntryType } from '../types/entry-type';
 
@@ -13,6 +15,8 @@ export class WorkComponent implements OnInit {
   public readonly todo_entries: EntryType[] = [];
   public readonly in_progress_entries: EntryType[] = [];
   public readonly done_entries: EntryType[] = [];
+
+  @ViewChild('edit_entry_modal') private edit_entry_modal: ElementRef<HTMLDivElement> | undefined;
 
   constructor(private es: EntryService) {
     this.todo_entries = this.es.getTodoEntries();
@@ -62,6 +66,18 @@ export class WorkComponent implements OnInit {
     if(window.confirm("Are you sure you want to delete this entry?")) {
       this.es.deleteEntry(id);
     }
+  }
+
+  public editEntry(entry: EntryType): void {
+    if (!this.edit_entry_modal) return;
+    let modal = new bootstrap.Modal(this.edit_entry_modal.nativeElement);
+
+    let inner = this.edit_entry_modal.nativeElement.querySelector('.entry-name');
+    if(!inner) return;
+
+    inner.innerHTML = entry.getName();
+
+    modal.show();
   }
 
 }
