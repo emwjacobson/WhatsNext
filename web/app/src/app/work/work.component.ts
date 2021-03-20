@@ -2,7 +2,9 @@ declare var bootstrap: any;
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { ElementRef } from '@angular/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ClassesService } from '../services/classes.service';
 import { EntryService } from '../services/entry.service';
+import { ClassType } from '../types/class-type';
 import { EntryType } from '../types/entry-type';
 
 @Component({
@@ -16,17 +18,21 @@ export class WorkComponent implements OnInit {
   public readonly in_progress_entries: EntryType[] = [];
   public readonly done_entries: EntryType[] = [];
 
-  private selected_entry: EntryType | undefined;
+  public selected_entry: EntryType | undefined;
 
   @ViewChild('edit_entry_modal') private edit_entry_modal: ElementRef<HTMLDivElement> | undefined;
 
-  constructor(private es: EntryService) {
+  constructor(private es: EntryService, private cs: ClassesService) {
     this.todo_entries = this.es.getTodoEntries();
     this.in_progress_entries = this.es.getInProgressEntries();
     this.done_entries = this.es.getDoneEntries();
   }
 
   ngOnInit(): void {
+  }
+
+  public getClasses(): ClassType[] {
+    return this.cs.getClasses();
   }
 
   public getTodoEntries(): EntryType[] {
@@ -95,14 +101,19 @@ export class WorkComponent implements OnInit {
 
     let inner = this.edit_entry_modal.nativeElement.querySelector('.entry-name');
     let assn_name = this.edit_entry_modal.nativeElement.querySelector('#assignment-name') as HTMLInputElement;
+    let selected_class = this.edit_entry_modal.nativeElement.querySelector('#assignment-parent') as HTMLSelectElement;
     let due_date = this.edit_entry_modal.nativeElement.querySelector('#due-date') as HTMLInputElement;
     let assn_info = this.edit_entry_modal.nativeElement.querySelector('#assignment-info') as HTMLTextAreaElement;
-    if(!inner || !assn_name || !due_date || !assn_info) return;
+    if(!inner || !assn_name || !selected_class || !due_date || !assn_info) return;
 
-    let date = new Date(due_date.value);
-    if (!date) return;
+    let date: Date = new Date(due_date.value);
+    if (isNaN(date as any)) date = new Date();
+
+    let new_parent = this.cs.getClasses().find((clazz) => clazz.getId().toString() == selected_class.value);
+    if (!date || !new_parent) return;
 
     this.selected_entry.setName(assn_name.value);
+    this.selected_entry.setParentClass(new_parent);
     this.selected_entry.setDueDate(date);
     this.selected_entry.setInfo(assn_info.value);
   }
