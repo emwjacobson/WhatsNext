@@ -23,16 +23,32 @@ export class EntryType {
         return this.parent_class;
     }
 
+    public setParentClass(clazz: ClassType): void {
+        this.parent_class = clazz;
+    }
+
     public getName(): string {
         return this.name;
+    }
+
+    public setName(name: string): void {
+        this.name = name;
     }
 
     public getDueDate(): Date {
         return this.due_date;
     }
 
+    public setDueDate(date: Date): void {
+        this.due_date = date;
+    }
+
     public getInfo(): string | undefined {
         return this.info;
+    }
+
+    public setInfo(info: string): void {
+        this.info = info;
     }
 
 }

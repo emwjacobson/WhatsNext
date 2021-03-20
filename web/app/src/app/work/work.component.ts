@@ -16,6 +16,8 @@ export class WorkComponent implements OnInit {
   public readonly in_progress_entries: EntryType[] = [];
   public readonly done_entries: EntryType[] = [];
 
+  private selected_entry: EntryType | undefined;
+
   @ViewChild('edit_entry_modal') private edit_entry_modal: ElementRef<HTMLDivElement> | undefined;
 
   constructor(private es: EntryService) {
@@ -73,11 +75,36 @@ export class WorkComponent implements OnInit {
     let modal = new bootstrap.Modal(this.edit_entry_modal.nativeElement);
 
     let inner = this.edit_entry_modal.nativeElement.querySelector('.entry-name');
-    if(!inner) return;
+    let assn_name = this.edit_entry_modal.nativeElement.querySelector('#assignment-name') as HTMLInputElement;
+    let due_date = this.edit_entry_modal.nativeElement.querySelector('#due-date') as HTMLInputElement;
+    let assn_info = this.edit_entry_modal.nativeElement.querySelector('#assignment-info') as HTMLTextAreaElement;
+    if(!inner || !assn_name || !due_date || !assn_info) return;
 
     inner.innerHTML = entry.getName();
+    assn_name.value = entry.getName();
+    due_date.value = entry.getDueDate().toDateString();
+    assn_info.value = entry.getInfo() || "";
+
+    this.selected_entry = entry;
 
     modal.show();
+  }
+
+  public confirmEditEntry(): void {
+    if (!this.selected_entry || !this.edit_entry_modal) return;
+
+    let inner = this.edit_entry_modal.nativeElement.querySelector('.entry-name');
+    let assn_name = this.edit_entry_modal.nativeElement.querySelector('#assignment-name') as HTMLInputElement;
+    let due_date = this.edit_entry_modal.nativeElement.querySelector('#due-date') as HTMLInputElement;
+    let assn_info = this.edit_entry_modal.nativeElement.querySelector('#assignment-info') as HTMLTextAreaElement;
+    if(!inner || !assn_name || !due_date || !assn_info) return;
+
+    let date = new Date(due_date.value);
+    if (!date) return;
+
+    this.selected_entry.setName(assn_name.value);
+    this.selected_entry.setDueDate(date);
+    this.selected_entry.setInfo(assn_info.value);
   }
 
 }
