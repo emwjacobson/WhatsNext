@@ -80,17 +80,6 @@ export class WorkComponent implements OnInit {
     if (!this.edit_entry_modal) return;
     let modal = new bootstrap.Modal(this.edit_entry_modal.nativeElement);
 
-    let inner = this.edit_entry_modal.nativeElement.querySelector('.entry-name');
-    let assn_name = this.edit_entry_modal.nativeElement.querySelector('#assignment-name') as HTMLInputElement;
-    let due_date = this.edit_entry_modal.nativeElement.querySelector('#due-date') as HTMLInputElement;
-    let assn_info = this.edit_entry_modal.nativeElement.querySelector('#assignment-info') as HTMLTextAreaElement;
-    if(!inner || !assn_name || !due_date || !assn_info) return;
-
-    inner.innerHTML = entry.getName();
-    assn_name.value = entry.getName();
-    due_date.value = entry.getDueDate().toDateString();
-    assn_info.value = entry.getInfo() || "";
-
     this.selected_entry = entry;
 
     modal.show();
@@ -99,12 +88,11 @@ export class WorkComponent implements OnInit {
   public confirmEditEntry(): void {
     if (!this.selected_entry || !this.edit_entry_modal) return;
 
-    let inner = this.edit_entry_modal.nativeElement.querySelector('.entry-name');
     let assn_name = this.edit_entry_modal.nativeElement.querySelector('#assignment-name') as HTMLInputElement;
     let selected_class = this.edit_entry_modal.nativeElement.querySelector('#assignment-parent') as HTMLSelectElement;
     let due_date = this.edit_entry_modal.nativeElement.querySelector('#due-date') as HTMLInputElement;
     let assn_info = this.edit_entry_modal.nativeElement.querySelector('#assignment-info') as HTMLTextAreaElement;
-    if(!inner || !assn_name || !selected_class || !due_date || !assn_info) return;
+    if( !assn_name || !selected_class || !due_date || !assn_info) return;
 
     let date: Date = new Date(due_date.value);
     if (isNaN(date as any)) date = new Date();

@@ -117,14 +117,14 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Editing "<span class="entry-name"></span>"</h5>
+        <h5 class="modal-title">Editing "{{ selected_entry?.getName()}} "</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form>
           <div class="mb-3">
             <label for="assignment-name" class="form-label">Assignment Name</label>
-            <input type="text" class="form-control" id="assignment-name" placeholder="Assignment Name">
+            <input type="text" class="form-control" id="assignment-name" placeholder="Assignment Name" [value]="selected_entry?.getName()">
           </div>
 
           <div class="mb-3">
@@ -136,12 +136,12 @@
 
           <div class="mb-3">
             <label for="due-date" class="form-label">Due Date</label>
-            <input type="text" class="form-control" id="due-date" placeholder="Due Date">
+            <input type="text" class="form-control" id="due-date" placeholder="Due Date" [value]="selected_entry?.getDueDate() | date:'medium'">
           </div>
 
           <div class="mb-3">
-            <label for="assignment-info" class="form-label">Assignment Name</label>
-            <textarea class="form-control" id="assignment-info" placeholder="Assignment Information"></textarea>
+            <label for="assignment-info" class="form-label">Assignment Info</label>
+            <textarea class="form-control" id="assignment-info" placeholder="Assignment Information">{{  selected_entry?.getInfo() }}</textarea>
           </div>
         </form>
       </div>
