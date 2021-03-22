@@ -100,10 +100,11 @@ export class WorkComponent implements OnInit {
     let new_parent = this.cs.getClasses().find((clazz) => clazz.getId().toString() == selected_class.value);
     if (!date || !new_parent) return;
 
+    // TODO: Move the editing of entries to the EntryService
     this.selected_entry.setName(assn_name.value);
     this.selected_entry.setParentClass(new_parent);
     this.selected_entry.setDueDate(date);
-    this.selected_entry.setInfo(assn_info.value);
+    this.selected_entry.setInfo(assn_info.value.split("\n"));
   }
 
 }

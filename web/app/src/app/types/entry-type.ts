@@ -5,9 +5,9 @@ export class EntryType {
     private parent_class: ClassType;
     private name: string;
     private due_date: Date;
-    private info?: string;
+    private info?: string[];
 
-    constructor(id: number, parent: ClassType, name: string, due_date: Date, info?: string) {
+    constructor(id: number, parent: ClassType, name: string, due_date: Date, info?: string[]) {
         this.id = id;
         this.parent_class = parent;
         this.name = name;
@@ -43,11 +43,15 @@ export class EntryType {
         this.due_date = date;
     }
 
-    public getInfo(): string | undefined {
+    public getInfo(): string[] | undefined {
         return this.info;
     }
 
-    public setInfo(info: string): void {
+    public setInfo(info: string[]): void {
+        if (info.length == 0 || (info.length == 1 && info[0] == "")) {
+            this.info = undefined;
+            return;
+        }
         this.info = info;
     }
 
