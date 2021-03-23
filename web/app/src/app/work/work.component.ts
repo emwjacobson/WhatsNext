@@ -14,9 +14,6 @@ import { EntryType } from '../types/entry-type';
 })
 export class WorkComponent implements OnInit {
 
-  // public readonly todo_entries: EntryType[];
-  // public readonly in_progress_entries: EntryType[];
-  // public readonly done_entries: EntryType[];
   public Category = EntryType.Category;
   public readonly all_entries: EntryType[];
   public selected_entry: EntryType | undefined;
@@ -24,9 +21,6 @@ export class WorkComponent implements OnInit {
   @ViewChild('edit_entry_modal') private edit_entry_modal: ElementRef<HTMLDivElement> | undefined;
 
   constructor(private es: EntryService, private cs: ClassesService) {
-    // this.todo_entries = this.es.getEntriesByCategory(EntryType.Category.Todo);
-    // this.in_progress_entries = this.es.getEntriesByCategory(EntryType.Category.InProgress);
-    // this.done_entries = this.es.getEntriesByCategory(EntryType.Category.Done);
     this.all_entries = this.es.getAllEntries();
   }
 
@@ -50,19 +44,25 @@ export class WorkComponent implements OnInit {
   }
 
   public drop(event: CdkDragDrop<EntryType.Category>): void {
-    console.log(event);
-    console.log(event.container === event.previousContainer);
-    console.log(event.container.data, event.previousContainer.data);
-    (event.item.data as EntryType).setCategory(event.container.data);
-    // this.es.reorderEntries()
-    // // If moving to the same list, then just rearrange the order
-    // if (event.previousContainer === event.container) {
-    //   this.es.reorderEntries(event.container.data, event.previousIndex, event.currentIndex);
+    // TODO: Move some of this into Entry service
 
-    // // If moving to a different list, then move to new list in correct position
-    // } else {
-    //   this.es.transferEntry(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
-    // }
+    let old_index = this.all_entries.findIndex((entry) => event.item.data === entry);
+
+    let count = event.currentIndex;
+    console.log(count);
+    let new_index = this.all_entries.findIndex((entry) => {
+      if (entry.getCategory() === event.container.data) {
+        if (count == 0) return true;
+        count--;
+      }
+      return false;
+    });
+    console.log(old_index, new_index);
+    (event.item.data as EntryType).setCategory(event.container.data);
+
+    // Subtract 1 from the new index if were moving the item "up" in the array to account for the first splice
+    if (new_index > old_index && event.container !== event.previousContainer) new_index--;
+    this.all_entries.splice(new_index == -1 ? this.all_entries.length : new_index, 0, this.all_entries.splice(old_index, 1)[0]);
   }
 
   public addTodoEntry(): void {
