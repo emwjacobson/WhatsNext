@@ -17,9 +17,10 @@
                     </div>
                   </h5>
                   <div class="card-body bg-primary p-0" style="min-height: 100px;"
-                    cdkDropList [cdkDropListData]="todo_entries" (cdkDropListDropped)="drop($event)">
+                    cdkDropList [cdkDropListData]="Category.Todo" (cdkDropListDropped)="drop($event)">
+                    <!-- cdkDropList [cdkDropListData]="todo_entries" (cdkDropListDropped)="drop($event)"> -->
 
-                    <div class="card m-1" id="draggable-entry" *ngFor="let entry of getTodoEntries()" cdkDrag>
+                    <div class="card m-1" id="draggable-entry" [cdkDragData]="entry" *ngFor="let entry of getTodoEntries()" cdkDrag>
                       <div class="card-body">
                         <div class="btn-group dropdown position-absolute top-0 end-0 pt-2 pe-3">
                           <div class="bi bi-three-dots" style="cursor: pointer;" data-bs-toggle="dropdown"></div>
@@ -51,9 +52,10 @@
                     </div>
                   </h5>
                   <div class="card-body bg-warning p-0" style="min-height: 100px;"
-                    cdkDropList [cdkDropListData]="in_progress_entries" (cdkDropListDropped)="drop($event)">
+                    cdkDropList [cdkDropListData]="Category.InProgress" (cdkDropListDropped)="drop($event)">
+                    <!-- cdkDropList [cdkDropListData]="in_progress_entries" (cdkDropListDropped)="drop($event)"> -->
 
-                    <div class="card m-1" id="draggable-entry" *ngFor="let entry of getInProgressEntries()" cdkDrag>
+                    <div class="card m-1" id="draggable-entry" [cdkDragData]="entry" *ngFor="let entry of getInProgressEntries()" cdkDrag>
                       <div class="card-body">
                         <div class="btn-group dropdown position-absolute top-0 end-0 pt-2 pe-3">
                           <div class="bi bi-three-dots" style="cursor: pointer;" data-bs-toggle="dropdown"></div>
@@ -85,9 +87,10 @@
                     </div>
                   </h5>
                   <div class="card-body bg-success p-0" style="min-height: 100px;"
-                    cdkDropList [cdkDropListData]="done_entries" (cdkDropListDropped)="drop($event)">
+                    cdkDropList [cdkDropListData]="Category.Done" (cdkDropListDropped)="drop($event)">
+                    <!-- cdkDropList [cdkDropListData]="done_entries" (cdkDropListDropped)="drop($event)"> -->
 
-                    <div class="card m-1" id="draggable-entry" *ngFor="let entry of getDoneEntries()" cdkDrag>
+                    <div class="card m-1" id="draggable-entry" [cdkDragData]="entry" *ngFor="let entry of getDoneEntries()" cdkDrag>
                       <div class="card-body">
                         <div class="btn-group dropdown position-absolute top-0 end-0 pt-2 pe-3">
                           <div class="bi bi-three-dots" style="cursor: pointer;" data-bs-toggle="dropdown"></div>

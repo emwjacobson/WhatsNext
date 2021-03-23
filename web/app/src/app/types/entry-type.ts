@@ -5,13 +5,15 @@ export class EntryType {
     private parent_class: ClassType;
     private name: string;
     private due_date: Date;
+    private category: EntryType.Category;
     private info?: string[];
 
-    constructor(id: number, parent: ClassType, name: string, due_date: Date, info?: string[]) {
+    constructor(id: number, parent: ClassType, name: string, due_date: Date, category: EntryType.Category, info?: string[]) {
         this.id = id;
         this.parent_class = parent;
         this.name = name;
         this.due_date = due_date;
+        this.category = category;
         this.info = info;
     }
 
@@ -43,6 +45,14 @@ export class EntryType {
         this.due_date = date;
     }
 
+    public getCategory(): EntryType.Category {
+        return this.category;
+    }
+
+    public setCategory(category: EntryType.Category): void {
+        this.category = category;
+    }
+
     public getInfo(): string[] | undefined {
         return this.info;
     }
@@ -54,5 +64,13 @@ export class EntryType {
         }
         this.info = info;
     }
+}
 
+export namespace EntryType {
+    // Nested ClassLink class
+    export enum Category {
+        Todo,
+        InProgress,
+        Done
+    }
 }

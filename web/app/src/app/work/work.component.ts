@@ -14,18 +14,20 @@ import { EntryType } from '../types/entry-type';
 })
 export class WorkComponent implements OnInit {
 
-  public readonly todo_entries: EntryType[] = [];
-  public readonly in_progress_entries: EntryType[] = [];
-  public readonly done_entries: EntryType[] = [];
-
+  // public readonly todo_entries: EntryType[];
+  // public readonly in_progress_entries: EntryType[];
+  // public readonly done_entries: EntryType[];
+  public Category = EntryType.Category;
+  public readonly all_entries: EntryType[];
   public selected_entry: EntryType | undefined;
 
   @ViewChild('edit_entry_modal') private edit_entry_modal: ElementRef<HTMLDivElement> | undefined;
 
   constructor(private es: EntryService, private cs: ClassesService) {
-    this.todo_entries = this.es.getTodoEntries();
-    this.in_progress_entries = this.es.getInProgressEntries();
-    this.done_entries = this.es.getDoneEntries();
+    // this.todo_entries = this.es.getEntriesByCategory(EntryType.Category.Todo);
+    // this.in_progress_entries = this.es.getEntriesByCategory(EntryType.Category.InProgress);
+    // this.done_entries = this.es.getEntriesByCategory(EntryType.Category.Done);
+    this.all_entries = this.es.getAllEntries();
   }
 
   ngOnInit(): void {
@@ -36,38 +38,43 @@ export class WorkComponent implements OnInit {
   }
 
   public getTodoEntries(): EntryType[] {
-    return this.todo_entries;
+    return this.es.getAllEntries().filter((entry) => entry.getCategory() == EntryType.Category.Todo);
   }
 
   public getInProgressEntries(): EntryType[] {
-    return this.in_progress_entries;
+    return this.es.getAllEntries().filter((entry) => entry.getCategory() == EntryType.Category.InProgress);
   }
 
   public getDoneEntries(): EntryType[] {
-    return this.done_entries;
+    return this.es.getAllEntries().filter((entry) => entry.getCategory() == EntryType.Category.Done);
   }
 
-  public drop(event: CdkDragDrop<EntryType[]>): void {
-    // If moving to the same list, then just rearrange the order
-    if (event.previousContainer === event.container) {
-      this.es.reorderEntries(event.container.data, event.previousIndex, event.currentIndex);
+  public drop(event: CdkDragDrop<EntryType.Category>): void {
+    console.log(event);
+    console.log(event.container === event.previousContainer);
+    console.log(event.container.data, event.previousContainer.data);
+    (event.item.data as EntryType).setCategory(event.container.data);
+    // this.es.reorderEntries()
+    // // If moving to the same list, then just rearrange the order
+    // if (event.previousContainer === event.container) {
+    //   this.es.reorderEntries(event.container.data, event.previousIndex, event.currentIndex);
 
-    // If moving to a different list, then move to new list in correct position
-    } else {
-      this.es.transferEntry(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
-    }
+    // // If moving to a different list, then move to new list in correct position
+    // } else {
+    //   this.es.transferEntry(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+    // }
   }
 
   public addTodoEntry(): void {
-    this.es.addTodoEntry();
+    console.log("Implement addTodoEntry");
   }
 
   public addInProgressEntry(): void {
-    console.log("addInProgressEntry");
+    console.log("Implement addInProgressEntry");
   }
 
   public addDoneEntry(): void {
-    console.log("addDoneEntry");
+    console.log("Implement addDoneEntry");
   }
 
   public deleteEntry(id: number): void {
