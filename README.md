@@ -8,14 +8,12 @@ The other goal is to setup an interactive kanban board to track classes, similar
 
 ## Technologies
 
+### Frontend
 * Angular - Frontend Javascript framework
-* Docker - Development environment and deployment
+* Docker - For deployment and a development environment
 
-## Web
-
-The website portion of this project was built as a PWA. I made this decision as I wanted the website to be highly responsive as well as work offline.
-
-I used docker as a development environment to make life easier as well as making things highly portable.
+### Backend
+* Appwrite - A self-hosted Firebase alternative
 
 ## Backend
 
@@ -29,10 +27,20 @@ docker run -it --rm \
     --volume /var/run/docker.sock:/var/run/docker.sock \
     --volume "$(pwd)"/appwrite:/usr/src/code/appwrite:rw \
     --entrypoint="install" \
-    appwrite/appwrite:0.7.1
+    appwrite/appwrite:0.7.2
 ```
-This step creates a new folder `appwrite` that contains a `docker-compose.yml` and `.env` file. Per the Appwrite [production practices](https://appwrite.io/docs/production), in the `.env` file set `_APP_CONSOLE_WHITELIST_EMAILS=` or `_APP_CONSOLE_WHITELIST_IPS` to your email/IP to limit registration.
+This step creates a new folder, `appwrite`, that contains a `docker-compose.yml` and `.env` file. Per the Appwrite [production practices](https://appwrite.io/docs/production), in the `.env` file set `_APP_CONSOLE_WHITELIST_EMAILS=` and/or `_APP_CONSOLE_WHITELIST_IPS` to your email/IP to limit registration.
+
+To update the running services, run `docker-compose up -d --remove-orhpans`. This can also be run in the future to restart Appwrite. To stop the services, run `docker-compose down`.
 
 2. Create an account with the local Appwrite server by visiting `https://localhost/`.
 3. Create a new project. In the homepage of the project, go to Settings and take note of the Project ID.
 4. In the API Keys tab of the project, create a new key with the permissions for `functions.read` and `functions.write`.
+5. Run `docker run --rm -it -v $(pwd)/appwrite:/appwrite -u node node:15 /bin/bash`
+
+
+## Frontend
+
+The website portion of this project was built as a PWA. I made this decision as I wanted the website to be highly responsive as well as work offline.
+
+I used docker as a development environment to make life easier as well as making things highly portable.
