@@ -17,6 +17,22 @@ The website portion of this project was built as a PWA. I made this decision as 
 
 I used docker as a development environment to make life easier as well as making things highly portable.
 
-## Database
+## Backend
 
-TODO
+For the backend we are using [AppWrite](https://appwrite.io/), a self-hosted backend service that is comparable to Google's Firebase.
+
+### Appwrite Setup
+
+1. Run the setup per the [Appwrite Documentation](https://appwrite.io/docs/installation)
+```
+docker run -it --rm \
+    --volume /var/run/docker.sock:/var/run/docker.sock \
+    --volume "$(pwd)"/appwrite:/usr/src/code/appwrite:rw \
+    --entrypoint="install" \
+    appwrite/appwrite:0.7.1
+```
+This step creates a new folder `appwrite` that contains a `docker-compose.yml` and `.env` file. Per the Appwrite [production practices](https://appwrite.io/docs/production), in the `.env` file set `_APP_CONSOLE_WHITELIST_EMAILS=` or `_APP_CONSOLE_WHITELIST_IPS` to your email/IP to limit registration.
+
+2. Create an account with the local Appwrite server by visiting `https://localhost/`.
+3. Create a new project. In the homepage of the project, go to Settings and take note of the Project ID.
+4. In the API Keys tab of the project, create a new key with the permissions for `functions.read` and `functions.write`.
