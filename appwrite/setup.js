@@ -13,27 +13,18 @@ client.setEndpoint(endpoint)
 
 let functions = new sdk.Functions(client);
 
-functions.create('test_function', [], 'node-14.5')
+let name = 'test_function';
+functions.create(name, [], 'node-14.5')
       .then((func_res) => {
             let func_id = func_res.$id;
-            functions.createTag(func_id, 'node test.js', fs.createReadStream('hello_world.tar.gz'))
-                  .then((tag_res) => {
-                        let tag_id = tag_res.$id;
-                        functions.updateTag(func_id, tag_id)
-                              .then((update_res) => {
-                                    console.log("Success");
-                              })
-                              .catch((error) => {
-                                    console.log("Error updating function");
-                                    console.log(error);
-                              });
-                  })
-                  .catch((error) => {
-                        console.log("Error creating tag");
-                        console.log(error);
-                  });
+            return func_id, functions.createTag(func_id, 'node test.js', fs.createReadStream('hello_world.tar.gz'))
+      }).then((tag_res) => {
+            let func_id = tag_res.functionId;
+            let tag_id = tag_res.$id;
+            return functions.updateTag(func_id, tag_id)
+      }).then((update_res) => {
+            console.log("Successfully created " + name);
       })
       .catch((error) => {
-            console.log("Error creating function");
             console.log(error);
       });

@@ -5,9 +5,7 @@
   "type": "module",
   "main": "setup.js",
   "scripts": {
-    "prestart": "tar -zcf hello_world.tar.gz hello_world/",
-    "start": "node setup.js",
-    "poststart": "rm hello_world.tar.gz",
+    "start": "bash setup.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
