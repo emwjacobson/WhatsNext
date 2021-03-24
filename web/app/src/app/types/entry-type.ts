@@ -2,13 +2,13 @@ import { ClassType } from "./class-type";
 
 export class EntryType {
     private id: number;
-    private parent_class: ClassType;
+    private parent_class: ClassType | undefined;
     private name: string;
     private due_date: Date;
     private category: EntryType.Category;
     private info?: string[];
 
-    constructor(id: number, parent: ClassType, name: string, due_date: Date, category: EntryType.Category, info?: string[]) {
+    constructor(id: number, parent: ClassType | undefined, name: string, due_date: Date, category: EntryType.Category, info?: string[]) {
         this.id = id;
         this.parent_class = parent;
         this.name = name;
@@ -21,7 +21,7 @@ export class EntryType {
         return this.id;
     }
 
-    public getParentClass(): ClassType {
+    public getParentClass(): ClassType | undefined {
         return this.parent_class;
     }
 

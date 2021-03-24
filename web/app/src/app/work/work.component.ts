@@ -66,15 +66,18 @@ export class WorkComponent implements OnInit {
   }
 
   public addTodoEntry(): void {
-    console.log("Implement addTodoEntry");
+    let new_entry: EntryType = this.es.addEntry(EntryType.Category.Todo);
+    this.editEntry(new_entry);
   }
 
   public addInProgressEntry(): void {
-    console.log("Implement addInProgressEntry");
+    let new_entry: EntryType = this.es.addEntry(EntryType.Category.InProgress);
+    this.editEntry(new_entry);
   }
 
   public addDoneEntry(): void {
-    console.log("Implement addDoneEntry");
+    let new_entry: EntryType = this.es.addEntry(EntryType.Category.Done);
+    this.editEntry(new_entry);
   }
 
   public deleteEntry(id: number): void {

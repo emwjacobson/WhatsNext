@@ -20,7 +20,7 @@ export class EntryService {
       new EntryType(7, classes[1], "Done Assignment 2", new Date(2021, 2, 20), EntryType.Category.Done),
       new EntryType(2, classes[2], "Todo Assignment 3", new Date(2021, 2, 20), EntryType.Category.Todo),
       new EntryType(5, classes[2], "In Progress Assignment 3", new Date(2021, 2, 20), EntryType.Category.InProgress),
-      new EntryType(8, classes[2], "Done Assignment 3", new Date(2021, 2, 20), EntryType.Category.Done)
+      new EntryType(8, classes[2], "Done Assignment 3", new Date(2021, 2, 20), EntryType.Category.Done),
     );
   }
 
@@ -28,8 +28,12 @@ export class EntryService {
     return this.all_entries;
   }
 
-  public addEntry(): void {
-    console.log("Implement addTodoEntry()");
+  public addEntry(category: EntryType.Category): EntryType {
+    let max_id: number = Math.max.apply(Math, this.all_entries.map((entry: EntryType) => { return entry.getId() }));
+    let new_entry: EntryType = new EntryType(max_id+1, undefined, "", new Date(), category);
+    let index = this.all_entries.findIndex((entry: EntryType) => entry.getCategory() == category);
+    this.all_entries.splice(index, 0, new_entry);
+    return new_entry;
   }
 
   public deleteEntry(id: number): void {
