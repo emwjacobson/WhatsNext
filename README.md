@@ -36,7 +36,8 @@ To update the running services, run `docker-compose up -d --remove-orhpans`. Thi
 2. Create an account with the local Appwrite server by visiting `https://localhost/`.
 3. Create a new project. In the homepage of the project, go to Settings and take note of the Project ID.
 4. In the API Keys tab of the project, create a new key with the permissions for `functions.read` and `functions.write`.
-5. Run `docker run --rm -it -v $(pwd)/appwrite:/appwrite -u node node:15 /bin/bash`
+5. Run `docker run --rm -it -v $(pwd)/appwrite:/appwrite -u node -e "ENDPOINT=https://YOUR_ENDPOINT/v1" -e "PROJECT_ID=YOUR_PROJECT_ID" -e "SECRET_KEY=YOUR_SECRET_KEY" --network host node:15 /bin/bash` replacing `YOUR_ENDPOINT`, `YOUR_PROJECT_ID`, and `YOUR_SECRET_KEY`.
+6. (Within container) `cd /appwrite`, `npm install`, `npm start`
 
 
 ## Frontend

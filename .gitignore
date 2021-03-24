@@ -1,2 +1,3 @@
 appwrite/.env
 appwrite/docker-compose.yml
+node_modules
