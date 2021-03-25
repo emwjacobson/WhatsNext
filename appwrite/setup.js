@@ -11,6 +11,25 @@ client.setEndpoint(endpoint)
       .setProject(project_id)
       .setKey(secret_key);
 
+
+// Create dummy user
+let users = new sdk.Users(client);
+
+users.list("name=Guest")
+.then((user_list) => {
+      if (user_list.sum == 0) {
+            return users.create('guest@guest.com', 'guestguest', 'guest');
+      } else {
+            return user_list.users[0];
+      }
+}).then((user) => {
+      console.log("Successfully created guest user!");
+}).catch((error) => {
+      console.log("Error creating guest user");
+      console.log(error);
+})
+
+
 // Create Databases
 let database = new sdk.Database(client);
 

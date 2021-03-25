@@ -21,7 +21,7 @@ For the backend we are using [AppWrite](https://appwrite.io/), a self-hosted bac
 
 ### Appwrite Setup
 
-1. Run the setup per the [Appwrite Documentation](https://appwrite.io/docs/installation)
+1. Run the setup per the [Appwrite Documentation](https://appwrite.io/docs/installation).
 ```
 docker run -it --rm \
     --volume /var/run/docker.sock:/var/run/docker.sock \
@@ -29,11 +29,11 @@ docker run -it --rm \
     --entrypoint="install" \
     appwrite/appwrite:0.7.2
 ```
-This step creates a new folder, `appwrite`, that contains a `docker-compose.yml` and `.env` file. Per the Appwrite [production practices](https://appwrite.io/docs/production), in the `.env` file set `_APP_CONSOLE_WHITELIST_EMAILS=` and/or `_APP_CONSOLE_WHITELIST_IPS` to your email/IP to limit registration.
+This step creates new files in the `appwrite` folder, `docker-compose.yml` and `.env`. Per the Appwrite [production practices](https://appwrite.io/docs/production), in the `.env` file set `_APP_CONSOLE_WHITELIST_EMAILS=` and/or `_APP_CONSOLE_WHITELIST_IPS=` to your email/IP to limit registration.
 
 To update the running services, run `docker-compose up -d --remove-orhpans`. This can also be run in the future to restart Appwrite. To stop the services, run `docker-compose down`.
 
-2. Create an account with the local Appwrite server by visiting `https://localhost/`.
+2. Create an account with the local Appwrite server by visiting the domain you set during setup.
 3. Create a new project. In the homepage of the project, go to Settings and take note of the Project ID.
 4. In the API Keys tab of the project, create a new key with all permissions granted.
 5. Run `docker run --rm -it -v $(pwd)/appwrite:/appwrite -u node -e "ENDPOINT=https://YOUR_ENDPOINT/v1" -e "PROJECT_ID=YOUR_PROJECT_ID" -e "SECRET_KEY=YOUR_SECRET_KEY" --network host node:15 /bin/bash` replacing `YOUR_ENDPOINT`, `YOUR_PROJECT_ID`, and `YOUR_SECRET_KEY`.
