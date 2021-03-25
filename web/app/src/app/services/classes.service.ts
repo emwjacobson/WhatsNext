@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ClassType } from '../types/class-type';
+import { DatabaseService } from './database.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class ClassesService {
     new ClassType(4, "STAT 155")
   ];
 
-  constructor() {
+  constructor(private db: DatabaseService) {
   }
 
   public getClasses(): ClassType[] {
@@ -22,7 +23,9 @@ export class ClassesService {
 
   public addClass(name: string) {
     let max_id: number = Math.max.apply(Math, this.classes.map((cls) => { return cls.getId() }));
-    this.classes.push(new ClassType(max_id+1, name));
+    let new_class = new ClassType(max_id+1, name);
+    // this.classes.push(new_class);
+    this.db.addClass(new_class);
   }
 
   public deleteCourse(id: number) {

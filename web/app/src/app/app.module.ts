@@ -11,6 +11,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { WorkComponent } from './work/work.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DragDropModule } from '@angular/cdk/drag-drop'
+import { EntryService } from './services/entry.service';
+import { DatabaseService } from './services/database.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop'
     DragDropModule
   ],
   providers: [
-    ClassesService
+    DatabaseService,
+    ClassesService,
+    EntryService,
   ],
   bootstrap: [AppComponent]
 })
