@@ -11,18 +11,28 @@ client.setEndpoint(endpoint)
       .setProject(project_id)
       .setKey(secret_key);
 
-// // Create Database Collections
-// let database = new sdk.Database(client);
+// Create Databases
+let database = new sdk.Database(client);
 
-// let classes_db_name = "classes"
-// database.createCollection(classes_db_name, ["*"], ["*"], [])
-//       .then((create_res) => {
-//             console.log("Successfully created database: " + classes_db_name);
-//       })
-//       .catch((error) => {
-//             console.log("Error creating database collection '" + classes_db_name + "'");
-//             console.log(error);
-//       });
+let classes_db_name = "classes";
+database.listCollections("name="+classes_db_name)
+.then((collections) => {
+      if (collections.sum == 0) {
+            return database.createCollection(classes_db_name, ["*"], ["*"], []);
+      } else {
+            return collections.collections[0];
+      }
+}).then((create_res) => {
+      console.log("Successfully created database: " + classes_db_name);
+}).catch((error) => {
+      console.log("Error creating database collection '" + classes_db_name + "'");
+      console.log(error);
+});
+
+// TODO Create Entries Database
+let entries_db_name = "entries";
+// database.listCollections("name="+entries_db_name)
+// ...
 
 
 // Create Cloud Functions
@@ -34,7 +44,6 @@ functions.list("name=" + test_name)
       if (funcs.sum == 0) {
             return functions.create(test_name, [], 'node-14.5');
       } else {
-            console.log("Cloud function '" + test_name + "' already exists");
             return funcs.functions[0];
       }
 }).then((func_res) => {
