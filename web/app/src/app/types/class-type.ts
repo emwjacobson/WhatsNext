@@ -1,15 +1,15 @@
 export class ClassType {
-    private id: number;
+    private id: string;
     private name: string;
     private info?: string[];
     private links?: ClassType.ClassLink[];
 
-    constructor(id: number, name: string) {
+    constructor(id: string, name: string) {
         this.id = id;
         this.name = name;
     }
 
-    public getId(): number {
+    public getId(): string {
         return this.id;
     }
 

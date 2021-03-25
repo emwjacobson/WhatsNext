@@ -7,14 +7,19 @@ import { DatabaseService } from './database.service';
 })
 export class ClassesService {
 
-  private readonly classes: ClassType[] = [
-    new ClassType(1, "ENGR 101I"),
-    new ClassType(2, "ENGR 180W"),
-    new ClassType(3, "CS 150"),
-    new ClassType(4, "STAT 155")
-  ];
+  private readonly classes: ClassType[] = [];
 
   constructor(private db: DatabaseService) {
+    this.refreshClasses();
+  }
+
+  private refreshClasses() {
+    this.db.getClasses().then((classes) => {
+      this.classes.splice(0, this.classes.length, ...classes);
+    }).catch((err) => {
+      console.log("Error fetching classes from database");
+      console.log(err);
+    });
   }
 
   public getClasses(): ClassType[] {
@@ -22,27 +27,21 @@ export class ClassesService {
   }
 
   public addClass(name: string) {
-    let max_id: number = Math.max.apply(Math, this.classes.map((cls) => { return cls.getId() }));
-    let new_class = new ClassType(max_id+1, name);
-    // this.classes.push(new_class);
-    this.db.addClass(new_class);
+    this.db.addClass(name).then(() => this.refreshClasses());
   }
 
-  public deleteCourse(id: number) {
-    let index = this.classes.findIndex((cls) => cls.getId() == id);
-    this.classes.splice(index, 1);
+  public deleteCourse(id: string) {
+    // let index = this.classes.findIndex((cls) => cls.getId() == id);
+    // this.classes.splice(index, 1);
+    this.db.deleteClass(id).then(() => this.refreshClasses());
   }
 
-  public editCourseInfo(id: number, info: string) {
-    let clazz: ClassType | undefined = this.classes.find((cls) => (cls.getId() == id));
-    if (!clazz) return;
+  public editCourseInfo(id: string, info: string) {
     let info_split: string[] = info.split("\n");
-    clazz.setInfo(info_split);
+    this.db.setClassInfo(id, info_split).then(() => this.refreshClasses());
   }
 
-  public editCourseLinks(id: number, links: ClassType.ClassLink[]) {
-    let clazz: ClassType | undefined = this.classes.find((cls) => (cls.getId() == id));
-    if (!clazz) return;
-    clazz.setLinks(links);
+  public editCourseLinks(id: string, links: ClassType.ClassLink[]) {
+    this.db.setClassLinks(id, links).then(() => this.refreshClasses());
   }
 }
