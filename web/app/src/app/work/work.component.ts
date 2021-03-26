@@ -25,6 +25,7 @@ export class WorkComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.es.refreshEntries();
   }
 
   public getClasses(): ClassType[] {
@@ -58,6 +59,8 @@ export class WorkComponent implements OnInit {
       return false;
     });
     console.log(old_index, new_index);
+
+    // TODO: This needs to be in EntryService
     (event.item.data as EntryType).setCategory(event.container.data);
 
     // Subtract 1 from the new index if were moving the item "up" in the array to account for the first splice
@@ -66,27 +69,30 @@ export class WorkComponent implements OnInit {
   }
 
   public addTodoEntry(): void {
-    let new_entry: EntryType = this.es.addEntry(EntryType.Category.Todo);
-    this.editEntry(new_entry);
+    this.es.addEntry(EntryType.Category.Todo).then((entry) => {
+      this.openEditModal(entry);
+    });
   }
 
   public addInProgressEntry(): void {
-    let new_entry: EntryType = this.es.addEntry(EntryType.Category.InProgress);
-    this.editEntry(new_entry);
+    this.es.addEntry(EntryType.Category.InProgress).then((entry) => {
+      this.openEditModal(entry);
+    });
   }
 
   public addDoneEntry(): void {
-    let new_entry: EntryType = this.es.addEntry(EntryType.Category.Done);
-    this.editEntry(new_entry);
+    this.es.addEntry(EntryType.Category.Done).then((entry) => {
+      this.openEditModal(entry);
+    });
   }
 
-  public deleteEntry(id: number): void {
+  public deleteEntry(id: string): void {
     if(window.confirm("Are you sure you want to delete this entry?")) {
       this.es.deleteEntry(id);
     }
   }
 
-  public editEntry(entry: EntryType): void {
+  public openEditModal(entry: EntryType): void {
     if (!this.edit_entry_modal) return;
     let modal = new bootstrap.Modal(this.edit_entry_modal.nativeElement);
 
@@ -110,11 +116,7 @@ export class WorkComponent implements OnInit {
     let new_parent = this.cs.getClasses().find((clazz) => clazz.getId().toString() == selected_class.value);
     if (!date || !new_parent) return;
 
-    // TODO: Move the editing of entries to the EntryService
-    this.selected_entry.setName(assn_name.value);
-    this.selected_entry.setParentClass(new_parent);
-    this.selected_entry.setDueDate(date);
-    this.selected_entry.setInfo(assn_info.value.split("\n"));
+    this.es.editEntry(this.selected_entry.getId(), assn_name.value, new_parent, date, assn_info.value.split("\n"));
   }
 
 }

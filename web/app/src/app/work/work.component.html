@@ -24,7 +24,7 @@
                         <div class="btn-group dropdown position-absolute top-0 end-0 pt-2 pe-3">
                           <div class="bi bi-three-dots" style="cursor: pointer;" data-bs-toggle="dropdown"></div>
                           <ul class="dropdown-menu dropdown-menu">
-                            <li><a class="dropdown-item" (click)="editEntry(entry)">Edit</a></li>
+                            <li><a class="dropdown-item" (click)="openEditModal(entry)">Edit</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" (click)="deleteEntry(entry.getId())">Delete</a></li>
                           </ul>
@@ -58,7 +58,7 @@
                         <div class="btn-group dropdown position-absolute top-0 end-0 pt-2 pe-3">
                           <div class="bi bi-three-dots" style="cursor: pointer;" data-bs-toggle="dropdown"></div>
                           <ul class="dropdown-menu dropdown-menu">
-                            <li><a class="dropdown-item" (click)="editEntry(entry)">Edit</a></li>
+                            <li><a class="dropdown-item" (click)="openEditModal(entry)">Edit</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" (click)="deleteEntry(entry.getId())">Delete</a></li>
                           </ul>
@@ -92,7 +92,7 @@
                         <div class="btn-group dropdown position-absolute top-0 end-0 pt-2 pe-3">
                           <div class="bi bi-three-dots" style="cursor: pointer;" data-bs-toggle="dropdown"></div>
                           <ul class="dropdown-menu dropdown-menu">
-                            <li><a class="dropdown-item" (click)="editEntry(entry)">Edit</a></li>
+                            <li><a class="dropdown-item" (click)="openEditModal(entry)">Edit</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" (click)="deleteEntry(entry.getId())">Delete</a></li>
                           </ul>
