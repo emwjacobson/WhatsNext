@@ -44,4 +44,8 @@ export class EntryService {
     });
   }
 
+  public changeEntryCategory(id: string, category: EntryType.Category): void {
+    this.db.changeEntryCategory(id, category).then(() => this.refreshEntries());
+  }
+
 }

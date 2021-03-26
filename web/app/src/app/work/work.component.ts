@@ -45,12 +45,10 @@ export class WorkComponent implements OnInit {
   }
 
   public drop(event: CdkDragDrop<EntryType.Category>): void {
-    // TODO: Move some of this into Entry service
-
     let old_index = this.all_entries.findIndex((entry) => event.item.data === entry);
 
     let count = event.currentIndex;
-    console.log(count);
+    // console.log(count);
     let new_index = this.all_entries.findIndex((entry) => {
       if (entry.getCategory() === event.container.data) {
         if (count == 0) return true;
@@ -58,14 +56,16 @@ export class WorkComponent implements OnInit {
       }
       return false;
     });
-    console.log(old_index, new_index);
+    // console.log(old_index, new_index);
 
-    // TODO: This needs to be in EntryService
-    (event.item.data as EntryType).setCategory(event.container.data);
+    if (event.container != event.previousContainer)
+      this.es.changeEntryCategory(event.item.data.getId(), event.container.data);
+    // (event.item.data as EntryType).setCategory(event.container.data);
 
+    // TODO: Figure out way to reimplement this with database integration
     // Subtract 1 from the new index if were moving the item "up" in the array to account for the first splice
-    if (new_index > old_index && event.container !== event.previousContainer) new_index--;
-    this.all_entries.splice(new_index == -1 ? this.all_entries.length : new_index, 0, this.all_entries.splice(old_index, 1)[0]);
+    // if (new_index > old_index && event.container !== event.previousContainer) new_index--;
+    // this.all_entries.splice(new_index == -1 ? this.all_entries.length : new_index, 0, this.all_entries.splice(old_index, 1)[0]);
   }
 
   public addTodoEntry(): void {

@@ -111,4 +111,10 @@ export class DatabaseService {
     .catch((err) => console.log("ERROR UPDATING ENTRY", err));
   }
 
+  public changeEntryCategory(id: string, category: EntryType.Category): Promise<void> {
+    return this.sdk.database.updateDocument(environment.appwrite_entry_id, id, { category: category }, ['*'], ['*'])
+    .then(() => {})
+    .catch((err) => console.log("ERROR UPDATING ENTRY CATEGORY", err));
+  }
+
 }
