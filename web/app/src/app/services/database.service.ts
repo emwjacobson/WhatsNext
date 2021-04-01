@@ -14,7 +14,7 @@ export class DatabaseService {
 
   constructor() {
     this.sdk = new Appwrite();
-    this.sdk.setEndpoint(environment.appwrite_endpoint)
+    this.sdk.setEndpoint(environment.appwrite_endpoint_url)
             .setProject(environment.appwrite_project_id);
 
     // Guests cannot write to database, so log in as guest
@@ -25,7 +25,7 @@ export class DatabaseService {
   }
 
   public getClasses(): Promise<ClassType[]> {
-    return this.sdk.database.listDocuments(environment.appwrite_classes_id)
+    return this.sdk.database.listDocuments(environment.appwrite_classes_db)
     .then((res: any) => {
       return res.documents.map((entry: any) => {
         let new_class = new ClassType(entry.$id, entry.name);
@@ -46,31 +46,31 @@ export class DatabaseService {
   }
 
   public addClass(class_name: string): Promise<void> {
-    return this.sdk.database.createDocument(environment.appwrite_classes_id, {name: class_name}, ['*'], ['*'])
+    return this.sdk.database.createDocument(environment.appwrite_classes_db, {name: class_name}, ['*'], ['*'])
     .then((res) => {})
     .catch((err) => console.log("ERROR ADDING CLASS", err));
   }
 
   public deleteClass(id: string): Promise<void> {
-    return this.sdk.database.deleteDocument(environment.appwrite_classes_id, id)
+    return this.sdk.database.deleteDocument(environment.appwrite_classes_db, id)
     .then((res) => {})
     .catch((err) => console.log("ERROR DELETING CLASS", err));
   }
 
   public setClassInfo(id: string, info: string[]): Promise<void> {
-    return this.sdk.database.updateDocument(environment.appwrite_classes_id, id, {info: info}, ['*'], ['*'])
+    return this.sdk.database.updateDocument(environment.appwrite_classes_db, id, {info: info}, ['*'], ['*'])
     .then((res) => {})
     .catch((err) => console.log("ERROR SETTING CLASS INFO", err));
   }
 
   public setClassLinks(id: string, links: ClassType.ClassLink[]): Promise<void> {
-    return this.sdk.database.updateDocument(environment.appwrite_classes_id, id, {links: links}, ['*'], ['*'])
+    return this.sdk.database.updateDocument(environment.appwrite_classes_db, id, {links: links}, ['*'], ['*'])
     .then(() => {})
     .catch((err) => console.log("ERROR SETTING CLASS LINKS", err));
   }
 
   public getEntries(): Promise<EntryType[]> {
-    return this.sdk.database.listDocuments(environment.appwrite_entry_id)
+    return this.sdk.database.listDocuments(environment.appwrite_entry_db)
     .then((res: any) => {
       return res.documents.map((entry: any) => {
         let new_entry = new EntryType(entry.$id, undefined, entry.name, new Date(entry.due_date), entry.category);
@@ -87,7 +87,7 @@ export class DatabaseService {
   }
 
   public addEntry(category: EntryType.Category): Promise<any> {
-    return this.sdk.database.createDocument(environment.appwrite_entry_id, { name: "New Assignment", due_date: new Date(), category: category }, ['*'], ['*'])
+    return this.sdk.database.createDocument(environment.appwrite_entry_db, { name: "New Assignment", due_date: new Date(), category: category }, ['*'], ['*'])
     .then((entry: any) => {
       let new_entry = new EntryType(entry.$id, entry.parent_class, entry.name, new Date(entry.due_date), entry.category);
 
@@ -100,19 +100,19 @@ export class DatabaseService {
   }
 
   public deleteEntry(id: string): Promise<void> {
-    return this.sdk.database.deleteDocument(environment.appwrite_entry_id, id)
+    return this.sdk.database.deleteDocument(environment.appwrite_entry_db, id)
     .then((res) => {})
     .catch((err) => console.log("ERROR DELETING ENTRY", err));
   }
 
   public editEntry(id: string, name: string, parent: ClassType, due_date: Date, info: string[]): Promise<void> {
-    return this.sdk.database.updateDocument(environment.appwrite_entry_id, id, { name: name, parent_class: parent.getId(), due_date: due_date, info:info }, ['*'], ['*'])
+    return this.sdk.database.updateDocument(environment.appwrite_entry_db, id, { name: name, parent_class: parent.getId(), due_date: due_date, info:info }, ['*'], ['*'])
     .then(() => {})
     .catch((err) => console.log("ERROR UPDATING ENTRY", err));
   }
 
   public changeEntryCategory(id: string, category: EntryType.Category): Promise<void> {
-    return this.sdk.database.updateDocument(environment.appwrite_entry_id, id, { category: category }, ['*'], ['*'])
+    return this.sdk.database.updateDocument(environment.appwrite_entry_db, id, { category: category }, ['*'], ['*'])
     .then(() => {})
     .catch((err) => console.log("ERROR UPDATING ENTRY CATEGORY", err));
   }
